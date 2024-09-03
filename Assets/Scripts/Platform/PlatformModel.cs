@@ -8,7 +8,7 @@ public class PlatformModel
 
     public int Health { get; private set; } = 3;
 
-    private Rigidbody _rb;
+    private readonly Rigidbody _rb;
 
     [Inject]
     public PlatformModel(Rigidbody rigidbody)
@@ -18,7 +18,7 @@ public class PlatformModel
 
     public void AddForce(float force)
     {
-        _rb.AddForce(new Vector3(force, 0, 0));
+        _rb.velocity = new Vector3(force, 0, 0);
     }
 
     public void LoseHealth()

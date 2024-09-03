@@ -3,7 +3,7 @@ using Zenject;
 
 public class PlatformView
 {
-    private TextMeshProUGUI _healthText;
+    private readonly TextMeshProUGUI _healthText;
     
     [Inject]
     public PlatformView(TextMeshProUGUI textMeshProUGUI)

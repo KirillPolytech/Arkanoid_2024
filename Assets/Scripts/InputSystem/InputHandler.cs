@@ -1,14 +1,21 @@
 using System;
+using UnityEngine;
 using Zenject;
 
-public class InputHandler : ITickable
+namespace Arkanoid.InputSystem
 {
-    public Action<InputData> OnInputDataUpdate;
-    
-    private InputData _inputData;
-    
-    public void Tick()
+    public class InputHandler : ITickable
     {
-        OnInputDataUpdate?.Invoke(_inputData);
+        public Action<InputData> OnInputDataUpdate;
+
+        private InputData _inputData;
+
+        public void Tick()
+        {
+            _inputData.HorizontalInputValue = Input.GetAxis(GlobalVariables.HorizontalInput);
+            _inputData.EscapePressed = Input.GetKeyDown(GlobalVariables.Escape);
+
+            OnInputDataUpdate?.Invoke(_inputData);
+        }
     }
 }
