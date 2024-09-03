@@ -1,9 +1,8 @@
 using Zenject;
 
-public class BootContext : MonoInstaller
+public class LevelContext : MonoInstaller
 {
     public override void InstallBindings()
     {
-        
     }
 }
