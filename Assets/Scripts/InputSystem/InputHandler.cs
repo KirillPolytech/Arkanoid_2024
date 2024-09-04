@@ -4,9 +4,10 @@ using Zenject;
 
 namespace Arkanoid.InputSystem
 {
-    public class InputHandler : ITickable
+    public class InputHandler : ITickable, IFixedTickable
     {
         public Action<InputData> OnInputDataUpdate;
+        public Action<InputData> OnInputDataUpdateFixed;
 
         private InputData _inputData;
 
@@ -16,6 +17,11 @@ namespace Arkanoid.InputSystem
             _inputData.EscapePressed = Input.GetKeyDown(GlobalVariables.Escape);
 
             OnInputDataUpdate?.Invoke(_inputData);
+        }
+
+        public void FixedTick()
+        {
+            OnInputDataUpdateFixed?.Invoke(_inputData);
         }
     }
 }

@@ -23,8 +23,10 @@ public class LevelContext : MonoInstaller
         Container.BindInstance(levelWindowController).AsSingle();
 
         Container.Bind<PlatformModel>().AsSingle().WithArguments(platformRb);
-        Container.Bind<PlatformView>().AsSingle().WithArguments(healthText);
         Container.BindInstance(platformPresenter).AsSingle();
+        
+        Container.Bind<HealthView>().AsSingle().WithArguments(healthText);
+        Container.Bind<Health>().AsSingle();
         
         Container.Bind<LevelStateMachine>().AsSingle().NonLazy();
     }
