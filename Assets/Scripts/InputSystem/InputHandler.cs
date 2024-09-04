@@ -15,6 +15,7 @@ namespace Arkanoid.InputSystem
         {
             _inputData.HorizontalInputValue = Input.GetAxis(GlobalVariables.HorizontalInput);
             _inputData.EscapePressed = Input.GetKeyDown(GlobalVariables.Escape);
+            _inputData.IsLMBPressed = Input.GetMouseButtonDown(GlobalVariables.LMB);
 
             OnInputDataUpdate?.Invoke(_inputData);
         }

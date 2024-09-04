@@ -11,7 +11,10 @@ public class LevelEntryPoint : MonoBehaviour
     private LevelStateMachine _levelStateMachine;
     
     [Inject]
-    public void Construct(SceneLoader sceneLoader, LevelStateMachine levelStateMachine)
+    public void Construct(
+        SceneLoader sceneLoader, 
+        LevelStateMachine levelStateMachine,
+        LoseTrigger loseTrigger)
     {
         _sceneLoader = sceneLoader;
         _levelStateMachine = levelStateMachine;
@@ -20,6 +23,8 @@ public class LevelEntryPoint : MonoBehaviour
         
         exitButton.onClick.AddListener(_levelStateMachine.SetState<PlayState>);
         exitButton.onClick.AddListener(_sceneLoader.LoadMenu);
+
+        //loseTrigger.OnBallEnter += ;
         
         levelStateMachine.SetState<PlayState>();
     }

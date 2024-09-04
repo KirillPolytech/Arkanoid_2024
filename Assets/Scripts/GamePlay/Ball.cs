@@ -12,7 +12,7 @@ public class Ball : MonoBehaviour
     private InputHandler _inputHandler;
 
     private bool _isActive;
-
+    
     [Inject]
     public void Construct(Settings settings, InputHandler inputHandler)
     {
@@ -24,11 +24,6 @@ public class Ball : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    public void Reset()
-    {
-        _isActive = false;
-    }
-
     private void CheckInput(InputData inputData)
     {
         if (inputData.HorizontalInputValue == 0 || _isActive)
@@ -37,7 +32,7 @@ public class Ball : MonoBehaviour
         float randX = Random.Range(-_settings.StartRange, _settings.StartRange);
         Vector3 randomDir = (Vector3.up + new Vector3(randX, 0, 0)).normalized * _settings.BallStartForce;
         _rb.velocity = randomDir;
-        
+
         _isActive = true;
     }
 
@@ -52,10 +47,6 @@ public class Ball : MonoBehaviour
         Vector3 reflect = Vector3.Reflect(inDir, other.contacts[0].normal);
         
         _rb.velocity = reflect.normalized * _settings.BallStartForce;
-
-        _rb.position += other.contacts[0].normal / 10;
-        
-        Debug.Log($"{reflect.normalized} {_rb.velocity}");
     }
 
     private void OnDisable()

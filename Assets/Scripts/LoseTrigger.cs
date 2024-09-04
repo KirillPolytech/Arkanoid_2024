@@ -1,15 +1,34 @@
 using System;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
+using Zenject;
 
-public class LoseTrigger : MonoBehaviour
+public class LoseTrigger : IDisposable
 {
+    private readonly CompositeDisposable  _disposables = new CompositeDisposable ();
+
     public Action OnBallEnter;
 
-    private void OnCollisionEnter(Collision other)
+    private Collider _collider;
+
+    [Inject]
+    public void Construct(Collider col)
     {
-        if (!other.gameObject.CompareTag(TagStorage.BallTag))
-            return;
-        
-        OnBallEnter?.Invoke();
+        _collider = col;
+
+        _collider.OnCollisionEnterAsObservable().Subscribe(c =>
+        {
+            if (!c.gameObject.CompareTag(TagStorage.BallTag))
+                return;
+
+            OnBallEnter?.Invoke();
+        }).AddTo(_disposables);
+    }
+
+
+    public void Dispose()
+    {
+        _disposables.Clear();
     }
 }

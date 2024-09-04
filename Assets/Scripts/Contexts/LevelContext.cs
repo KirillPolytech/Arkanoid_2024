@@ -7,8 +7,11 @@ using Arkanoid.Settings;
 public class LevelContext : MonoInstaller
 {
     [SerializeField] private Rigidbody platformRb;
+    [SerializeField] private Collider platformCollider;
+    
+    [SerializeField] private Collider loseTrigger;
+    
     [SerializeField] private TextMeshProUGUI healthText;
-    [SerializeField] private PlatformPresenter platformPresenter;
     
     [SerializeField] private LevelWindowController levelWindowController;
     
@@ -23,10 +26,12 @@ public class LevelContext : MonoInstaller
         Container.BindInstance(levelWindowController).AsSingle();
 
         Container.Bind<PlatformModel>().AsSingle().WithArguments(platformRb);
-        Container.BindInstance(platformPresenter).AsSingle();
+        Container.BindInterfacesAndSelfTo<PlatformPresenter>().AsSingle().WithArguments(platformCollider);
         
         Container.Bind<HealthView>().AsSingle().WithArguments(healthText);
         Container.Bind<Health>().AsSingle();
+
+        Container.Bind<LoseTrigger>().AsSingle().WithArguments(loseTrigger);
         
         Container.Bind<LevelStateMachine>().AsSingle().NonLazy();
     }

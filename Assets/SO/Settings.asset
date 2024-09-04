@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a61bda69727cd848a24284af2b272e6, type: 3}
   m_Name: Settings
   m_EditorClassIdentifier: 
-  PlatformSpeed: 7
+  PlatformSpeed: 59
   BallStartForce: 15
   StartRange: 3
