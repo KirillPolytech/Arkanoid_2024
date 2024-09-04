@@ -17,7 +17,7 @@ public class BlockStorage : MonoBehaviour
         _poolBuff = new Pool<GameObject>(buffPrefab);
 
         foreach (var block in blocks)
-        {
+        {   
             block.OnCollisionEnterAsObservable().Subscribe(_ =>
             {
                 var obj = _poolBuff.Pop();

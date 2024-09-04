@@ -35,10 +35,11 @@ public class PlatformPresenter : IDisposable
 
         _collider.OnCollisionEnterAsObservable().Subscribe(x =>
         {
-            if (!x.gameObject.CompareTag(TagStorage.BallTag))
-                return;
-
-            _canMove = false;
+            if (x.gameObject.CompareTag(TagStorage.BuffTag))
+                x.gameObject.GetComponent<Buff>().Execute();
+            
+            if (x.gameObject.CompareTag(TagStorage.BallTag))
+                _canMove = false;
         }).AddTo(_disposables);
         
         _collider.OnCollisionExitAsObservable().Subscribe(x =>

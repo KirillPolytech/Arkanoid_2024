@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Arkanoid.InputSystem;
 using Arkanoid.StateMachine;
@@ -21,7 +20,7 @@ public class LevelStateMachine : StateMachine, IDisposable
         _states.Add(new PlayState(levelWindowController));
 
         _inputHandler = inputHandler;
-        _inputHandler.OnInputDataUpdate += CheckInputs;
+        _inputHandler.OnInputDataUpdate += HandlePauseWindow;
     }
 
     public override void SetState<T>()
@@ -38,7 +37,7 @@ public class LevelStateMachine : StateMachine, IDisposable
         CurrentState.EnterState();
     }
 
-    private void CheckInputs(InputData data)
+    private void HandlePauseWindow(InputData data)
     {
         if (!data.EscapePressed)
             return;
@@ -57,6 +56,6 @@ public class LevelStateMachine : StateMachine, IDisposable
 
     public void Dispose()
     {
-        _inputHandler.OnInputDataUpdate -= CheckInputs;
+        _inputHandler.OnInputDataUpdate -= HandlePauseWindow;
     }
 }

@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneLoader: {fileID: 5964471291409947727}
+  audioMixer: {fileID: 24100000, guid: 3dc7bfcbc24166a4f9c6fbf1de3fc9ba, type: 2}
 --- !u!1001 &1169430465209055966
 PrefabInstance:
   m_ObjectHideFlags: 0

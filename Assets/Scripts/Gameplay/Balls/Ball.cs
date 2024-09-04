@@ -26,7 +26,7 @@ public class Ball : MonoBehaviour
 
     private void CheckInput(InputData inputData)
     {
-        if (inputData.HorizontalInputValue == 0 || _isActive)
+        if (!inputData.IsLMBPressed || _isActive)
             return;
         
         float randX = Random.Range(-_settings.StartRange, _settings.StartRange);
