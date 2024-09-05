@@ -1,19 +1,22 @@
 using System;
+using Arkanoid.Settings;
+using Zenject;
 
 public class Health
 {
-    public Action<int> OnHealthLose;
+    public int CurrentHealth { get; private set; }
 
-    public int CurrentHealth { get; private set; } = 3;
-    
+    [Inject]
+    public Health(Settings settings)
+    {
+        CurrentHealth = settings.Health;
+    }
+
     public void LoseHealth()
     {
         if (CurrentHealth < 0)
             throw new Exception("Health below zero");
 
         CurrentHealth--;
-
-        OnHealthLose?.Invoke(CurrentHealth);
     }
-
 }

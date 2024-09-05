@@ -20,19 +20,13 @@ public class Level : MonoBehaviour
         _levelStateMachine = levelStateMachine;
         
         continueButton.onClick.AddListener(_levelStateMachine.SetState<PlayState>);
-        
         exitButton.onClick.AddListener(_levelStateMachine.SetState<PlayState>);
         exitButton.onClick.AddListener(_sceneLoader.LoadMenu);
-
-        //loseTrigger.OnBallEnter += ;
-        
-        levelStateMachine.SetState<InitialState>();
     }
 
     private void OnDisable()
     {
         continueButton.onClick.RemoveListener(_levelStateMachine.SetState<PlayState>);
-        
         exitButton.onClick.RemoveListener(_levelStateMachine.SetState<PlayState>);
         exitButton.onClick.RemoveListener(_sceneLoader.LoadMenu);
     }

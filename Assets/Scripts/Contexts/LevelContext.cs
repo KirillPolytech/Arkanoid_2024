@@ -37,9 +37,10 @@ public class LevelContext : MonoInstaller
         
         Container.Bind<HealthView>().AsSingle().WithArguments(healthText);
         Container.Bind<Health>().AsSingle();
+        Container.BindInterfacesAndSelfTo<HealthPresenter>().AsSingle();
 
         Container.Bind<LoseTrigger>().AsSingle().WithArguments(loseTrigger);
         
-        Container.Bind<LevelStateMachine>().AsSingle().WithArguments(ballDefaultPos);
+        Container.BindInterfacesAndSelfTo<LevelStateMachine>().AsSingle().WithArguments(ballDefaultPos);
     }
 }

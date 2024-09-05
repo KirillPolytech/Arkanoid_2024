@@ -8,6 +8,8 @@ using UniRx.Triggers;
 
 public class PlatformPresenter : IDisposable
 {
+    private readonly CompositeDisposable _disposables = new CompositeDisposable();
+
     private PlatformModel _platformModel;
     private InputHandler _inputHandler;
     private Settings _settings;
@@ -15,9 +17,6 @@ public class PlatformPresenter : IDisposable
     private Action<InputData> _cachedAddForce;
 
     private Collider _collider;
-    private readonly CompositeDisposable  _disposables = new CompositeDisposable ();
-
-    private bool _canMove = true;
 
     [Inject]
     public void Construct(
@@ -31,26 +30,19 @@ public class PlatformPresenter : IDisposable
         _settings = settings;
         _collider = col;
 
-        _cachedAddForce = x => _platformModel.AddForce(x.HorizontalInputValue * _settings.PlatformSpeed, _canMove);
+        _cachedAddForce = x => _platformModel.AddForce(x.HorizontalInputValue * _settings.PlatformSpeed);
 
-        _collider.OnCollisionEnterAsObservable().Subscribe(x =>
-        {
-            if (x.gameObject.CompareTag(TagStorage.BuffTag))
-                x.gameObject.GetComponent<Buff>().Execute();
-            
-            if (x.gameObject.CompareTag(TagStorage.BallTag))
-                _canMove = false;
-        }).AddTo(_disposables);
-        
-        _collider.OnCollisionExitAsObservable().Subscribe(x =>
-        {
-            if (!x.gameObject.CompareTag(TagStorage.BallTag))
-                return;
-
-            _canMove = true;
-        }).AddTo(_disposables);
+        _collider.OnCollisionEnterAsObservable().Subscribe(HandleCollision).AddTo(_disposables);
 
         _inputHandler.OnInputDataUpdateFixed += _cachedAddForce;
+    }
+
+    private void HandleCollision(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag(TagStorage.BuffTag))
+            return;
+        
+        collision.gameObject.GetComponent<Buff>().Execute();
     }
 
     public void Dispose()

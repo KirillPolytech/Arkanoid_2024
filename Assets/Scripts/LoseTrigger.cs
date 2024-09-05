@@ -13,15 +13,16 @@ public class LoseTrigger : IDisposable
     private Collider _collider;
 
     [Inject]
-    public void Construct(Collider col)
+    public void Construct(Collider col, BallPool ballPool)
     {
         _collider = col;
 
-        _collider.OnCollisionEnterAsObservable().Subscribe(c =>
+        _collider.OnCollisionEnterAsObservable().Subscribe(collision =>
         {
-            if (!c.gameObject.CompareTag(TagStorage.BallTag))
+            if (!collision.gameObject.CompareTag(TagStorage.BallTag))
                 return;
 
+            ballPool.Push(collision.gameObject);
             OnBallEnter?.Invoke();
         }).AddTo(_disposables);
     }

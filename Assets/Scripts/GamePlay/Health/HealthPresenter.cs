@@ -1,11 +1,12 @@
 using System;
+using Zenject;
 
-public class HealthPresenter
+public class HealthPresenter : IInitializable
 {
-    public Action OnLose;
-
-    private Health _health;
-    private HealthView _healthView;
+    private readonly Health _health;
+    private readonly HealthView _healthView;
+    
+    public Action<int> OnHealthLose;
 
     public HealthPresenter(Health health, HealthView healthView)
     {
@@ -13,11 +14,17 @@ public class HealthPresenter
         _healthView = healthView;
     }
     
-    private void UpdateHealth(int health)
+    public void Initialize()
     {
-        if (health > 0)
-            return;
+        _healthView.DrawHealth(_health.CurrentHealth);
+    }
 
-        OnLose?.Invoke();
+    public void LoseHealth()
+    {
+        _health.LoseHealth();
+        
+        _healthView.DrawHealth(_health.CurrentHealth);
+        
+        OnHealthLose?.Invoke(_health.CurrentHealth);
     }
 }

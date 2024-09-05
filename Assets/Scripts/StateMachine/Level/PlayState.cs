@@ -1,26 +1,34 @@
+using System.Linq;
+using Arkanoid.Settings;
 using Arkanoid.StateMachine;
 using UnityEngine;
 
 public class PlayState : State
 {
     private readonly LevelWindowController _windowController;
-    private readonly Ball _ball;
-    
-    public PlayState(LevelWindowController windowController, Ball ball)
+    private readonly BallPool _ballPool;
+    private readonly Settings _settings;
+    private readonly Transform _initalPos;
+
+    public PlayState(LevelWindowController windowController, BallPool ballPool, Settings settings, Transform initalPos)
     {
         _windowController = windowController;
-        _ball = ball;
+        _ballPool = ballPool;
+        _settings = settings;
+        _initalPos = initalPos;
     }
-    
+
     public override void EnterState()
     {
         _windowController.Open<GamePlayWindow>();
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        Vector3 velocity = (Vector3.up + Vector3.right * Random.Range(-1f, 2f)).normalized * _settings.BallStartForce;
+        _ballPool.GetActiveBalls().First().Initialize(velocity, _initalPos.position);
     }
 
     public override void ExitState()
     {
-        
     }
 }

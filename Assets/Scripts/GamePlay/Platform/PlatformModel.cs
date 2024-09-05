@@ -11,11 +11,8 @@ public class PlatformModel
         _rb = rigidbody;
     }
 
-    public void AddForce(float force, bool canMove)
+    public void AddForce(float force)
     {
-        if (!canMove)
-            return;
-        
         _rb.velocity = new Vector3(force, 0, 0);
     }
 }
