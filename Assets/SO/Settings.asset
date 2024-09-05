@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Settings
   m_EditorClassIdentifier: 
   Health: 3
-  PlatformSpeed: 30
-  BallStartForce: 10
+  PlatformSpeed: 15
+  BallStartForce: 15
   StartRange: 3

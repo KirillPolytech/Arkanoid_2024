@@ -12,8 +12,9 @@ public class LevelContext : MonoInstaller
     [SerializeField] private Rigidbody platformRb;
     [SerializeField] private Collider platformCollider;
 
-    [Space(15)] [SerializeField] private Buff multipleBallPrefab;
+    [Space(15)] [SerializeField] private Buff divisionBallPrefab;
     [SerializeField] private Buff reduceSizePrefab;
+    [SerializeField] private Buff expandSizePrefab;
 
     [Space(15)] [SerializeField] private Ball ballPrefab;
     [SerializeField] private Transform ballDefaultPos;
@@ -53,6 +54,6 @@ public class LevelContext : MonoInstaller
         Container.BindInterfacesAndSelfTo<LevelStateMachine>().AsSingle().WithArguments(ballDefaultPos);
 
         Container.BindInterfacesAndSelfTo<BlockService>().AsSingle()
-            .WithArguments(multipleBallPrefab, reduceSizePrefab);
+            .WithArguments(divisionBallPrefab, reduceSizePrefab, expandSizePrefab);
     }
 }

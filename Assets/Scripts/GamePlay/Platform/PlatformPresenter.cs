@@ -46,16 +46,16 @@ public class PlatformPresenter : IDisposable
         collision.gameObject.GetComponent<Buff>().Execute();
     }
 
-    public void ReduceSize()
+    public void Resize(float koeff, float duration)
     {
-        ReducingSize().ToObservable().Subscribe().AddTo(_disposables);
+        Resizing(koeff, duration).ToObservable().Subscribe().AddTo(_disposables);
     }
 
-    private IEnumerator ReducingSize()
+    private IEnumerator Resizing(float koeff, float duration)
     {
-        _collider.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        yield return new WaitForSeconds(10);
-        _collider.transform.localScale = new Vector3(1f, 1f, 1f);
+        _collider.transform.localScale /= koeff;
+        yield return new WaitForSeconds(duration);
+        _collider.transform.localScale = Vector3.one;
     }
 
     public void Dispose()

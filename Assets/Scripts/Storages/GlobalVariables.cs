@@ -7,5 +7,6 @@ public static class GlobalVariables
 
     public static int LMB = 0;
     
+    public static KeyCode Space = KeyCode.Space;
     public static KeyCode Escape = KeyCode.Escape;
 }

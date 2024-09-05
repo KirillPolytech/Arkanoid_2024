@@ -16,5 +16,10 @@ namespace Arkanoid.Settings
         [Header("BallSettings")]
         public float BallStartForce = 5f;
         public float StartRange = 3;
+        
+        [Space(10)]
+        [Header("Buffs")]
+        [Range(0,30)]public float buffDuration = 5f;
+        [Range(1,10)]public float coefficient = 2;
     }
 }

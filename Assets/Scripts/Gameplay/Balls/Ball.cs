@@ -4,7 +4,7 @@ using Arkanoid.Settings;
 
 public class Ball : MonoBehaviour
 {
-    private const float BlindArea = 0.1f;
+    private const float BlindArea = 0.25f;
     
     public Rigidbody Rb { get; private set; }
     
@@ -28,8 +28,9 @@ public class Ball : MonoBehaviour
         _lastVelocity = Rb.velocity;
 
         float absY = Mathf.Abs(Rb.velocity.y); 
-        if (absY < BlindArea)
-            Rb.velocity += new Vector3(0, Random.Range(-1, 2), 0);
+        float absX = Mathf.Abs(Rb.velocity.x); 
+        if (absY < BlindArea || absX < BlindArea)
+            Rb.velocity += new Vector3(0, Random.Range(-1, 2) * 1/BlindArea, 0);
     }
     
     public void Initialize(Vector3 velocity, Vector3 pos)

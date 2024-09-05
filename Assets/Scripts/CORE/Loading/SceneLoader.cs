@@ -11,6 +11,13 @@ public class SceneLoader : MonoBehaviour
     public Action<float> OnLoadProgress;
     public Action<string> OnEndLoading;
 
+    private void Start()
+    {
+        //#if !UNITY_EDITOR
+        LoadMenu();
+        //#endif
+    }
+
     public void LoadMenu()
     {
         StartCoroutine(LoadScene(SceneNameStorage.MenuName));

@@ -1,25 +1,26 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Arkanoid;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Pool<T> where T : Component
 {
-    private const int DefaultAmount = 10;
+    protected const int DefaultAmount = 10;
 
     private readonly Factory _factory;
     protected readonly List<T> _pool = new List<T>();
 
     private readonly GameObject _prefab;
 
-    public Pool(GameObject prefab, Factory factory)
+    public Pool(GameObject prefab, Factory factory, [Optional] int amount)
     {
         _factory = factory;
 
         _prefab = prefab;
 
-        for (int i = 0; i < DefaultAmount; i++)
+        for (int i = 0; i < amount; i++)
         {
             Instantiate();
         }
