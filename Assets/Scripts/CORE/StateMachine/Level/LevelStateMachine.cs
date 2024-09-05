@@ -28,7 +28,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         BallPool ballPool,
         Transform ballDefaultPos)
     {
-        _states.Add(new InitialState(ballPool, ballDefaultPos, levelWindowController));
+        _states.Add(new InitialState(blockPool, ballPool, ballDefaultPos, levelWindowController, timeFreezer));
         _states.Add(new BeginGameState(levelWindowController, ballPool, settings, ballDefaultPos));
         _states.Add(new PauseState(timeFreezer, levelWindowController));
         _states.Add(new ContinueGameState(timeFreezer, levelWindowController));
@@ -39,7 +39,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         _loseTrigger = loseTrigger;
         _ballPool = ballPool;
         _blockPool = blockPool;
-        
+
         _inputHandler.OnInputDataUpdate += HandlePauseWindow;
         _inputHandler.OnInputDataUpdate += BeginGame;
         _healthPresenter.OnHealthLose += HandleHealthCount;
@@ -47,7 +47,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         _loseTrigger.OnBallEnter += HandleBallCount;
         //_blockPool.GetActive()
     }
-    
+
     public void Initialize()
     {
         SetState<InitialState>();
@@ -71,7 +71,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
     {
         if (inputData.HorizontalInputValue != 0 || !inputData.IsLMBPressed)
             return;
-        
+
         if (CurrentState.GetType() != typeof(InitialState))
             return;
 
@@ -80,7 +80,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     private void HandlePauseWindow(InputData data)
     {
-        if (!data.EscapePressed 
+        if (!data.EscapePressed
             || CurrentState.GetType() == typeof(WinState)
             || CurrentState.GetType() == typeof(LoseState))
             return;
@@ -101,7 +101,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
     {
         if (health > 0)
             return;
-        
+
         SetState<LoseState>();
     }
 
@@ -109,7 +109,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
     {
         if (_ballPool.GetActiveBalls().Length > 0)
             return;
-        
+
         SetState<LoseState>();
     }
 

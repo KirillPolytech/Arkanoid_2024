@@ -110,8 +110,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbda2ad9c782cad4bbf2a41e8c81899f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blockPrefab: {fileID: 2230678153484054397, guid: 79a96b9d53a54ad4e9318d681cb9d190, type: 3}
+  blocks:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   platformRb: {fileID: 0}
   platformCollider: {fileID: 0}
+  multipleBallPrefab: {fileID: 5798158613166923158, guid: 4a7bd107d96bdcd42ba6db4d2f123dc5, type: 3}
+  reduceSizePrefab: {fileID: 4388231349433271516, guid: 14ae47d8c78afb3409eb247e8ff9645d, type: 3}
   ballPrefab: {fileID: 369615631, guid: 53fc5cd06be30cf4cac81bab9693efc5, type: 3}
   ballDefaultPos: {fileID: 1908876300}
   loseTrigger: {fileID: 0}
@@ -131,4 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   continueButton: {fileID: 0}
-  exitButton: {fileID: 0}
+  exitButton:
+  - {fileID: 0}
+  - {fileID: 0}
+  restartButton: {fileID: 0}

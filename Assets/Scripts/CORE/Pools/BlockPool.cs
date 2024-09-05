@@ -1,33 +1,18 @@
 using Arkanoid;
-using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 
 public class BlockPool : Pool<Collider>
 {
-    public BlockPool(GameObject prefab, Factory factory, IDataProvider<Collider> dataProvider) : base(prefab, factory)
+    public BlockPool(GameObject prefab, Factory factory, BlockProvider dataProvider) : base(prefab, factory)
     {
         _pool.AddRange(dataProvider.GetArray());
-        
-        /*foreach (var block in dataProvider.GetArray())
+    }
+
+    public void ActivateAll()
+    {
+        foreach (var collider in _pool)
         {
-            block.OnCollisionEnterAsObservable().Subscribe(_ =>
-            {
-                Buff obj = null;
-                int rand = Random.Range(0, 2);
-                switch (rand)
-                {
-                    case 0:
-                        obj = _multipleBallPool.Pop();
-                        break;
-                    case 1:
-                        obj = _reduceSizePool.Pop();
-                        break;
-                }
-                
-                obj.transform.SetPositionAndRotation(block.transform.position, Quaternion.identity);
-                block.gameObject.SetActive(false);
-            }).AddTo(_disposables);
-        }*/
+            collider.gameObject.SetActive(true);
+        }
     }
 }

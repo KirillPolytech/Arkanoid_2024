@@ -10,8 +10,7 @@ public class Ball : MonoBehaviour
     
     private Vector3 _lastVelocity;
     private Settings _settings;
-
-    private bool _isActive;
+    private bool _initialized;
     
     [Inject]
     public void Construct(Settings settings)
@@ -23,6 +22,9 @@ public class Ball : MonoBehaviour
     
     private void FixedUpdate()
     {
+        if (!_initialized)
+            return;
+        
         _lastVelocity = Rb.velocity;
 
         float absY = Mathf.Abs(Rb.velocity.y); 
@@ -34,6 +36,8 @@ public class Ball : MonoBehaviour
     {
         Rb.position = pos;
         Rb.velocity = velocity;
+
+        _initialized = true;
     }
 
     public void SetPosition(Vector3 pos)

@@ -1,53 +1,53 @@
+using System;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using Zenject;
+using Random = UnityEngine.Random;
 
-public class BlockStorage : MonoBehaviour
+public class BlockService : IInitializable, IDisposable
 {
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
-
-    [SerializeField] private Collider[] blocks;
-
-    [SerializeField] private Buff multipleBallPrefab;
-    [SerializeField] private Buff reduceSizePrefab;
-
+    
     private Pool<Buff> _multipleBallPool;
     private Pool<Buff> _reduceSizePool;
+    private Collider[] _blocks;
 
     [Inject]
-    public void Construct(Arkanoid.Factory factory)
+    public void Construct(Arkanoid.Factory factory, 
+        BlockProvider dataProvider,
+        Buff multipleBallPrefab,
+        Buff reduceSizePrefab)
     {
+        _blocks = dataProvider.GetArray();
+
         _multipleBallPool = new Pool<Buff>(multipleBallPrefab.gameObject, factory);
         _reduceSizePool = new Pool<Buff>(reduceSizePrefab.gameObject, factory);
     }
 
-    private void Awake()
+    public void Initialize()
     {
-        foreach (var block in blocks)
+        foreach (var block in _blocks)
         {
             block.OnCollisionEnterAsObservable().Subscribe(_ =>
             {
                 Buff obj = null;
                 int rand = Random.Range(0, 2);
-                switch (rand)
+                obj = rand switch
                 {
-                    case 0:
-                        obj = _multipleBallPool.Pop();
-                        break;
-                    case 1:
-                        obj = _reduceSizePool.Pop();
-                        break;
-                }
-                
+                    0 => _multipleBallPool.Pop(),
+                    1 => _reduceSizePool.Pop(),
+                    _ => obj
+                };
+
                 obj.transform.SetPositionAndRotation(block.transform.position, Quaternion.identity);
                 block.gameObject.SetActive(false);
             }).AddTo(_disposables);
         }
     }
-    
-    private void OnDisable()
+
+    public void Dispose()
     {
-        _disposables.Clear();
+        _disposables?.Dispose();
     }
 }

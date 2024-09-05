@@ -12,6 +12,10 @@ public class ReduceSizeBuff : Buff
     
     public override void Execute()
     {
+        if (!gameObject.activeSelf)
+            return;
+        
         _platformPresenter.ReduceSize();
+        gameObject.SetActive(false);
     }
 }
