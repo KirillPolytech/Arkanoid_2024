@@ -11,7 +11,7 @@ public class LoadingScreen : MonoBehaviour
     private SceneLoader _sceneLoader;
     private Action<float> _cachedProgressAction;
     private Action _cachedBeingLoading;
-    private Action _cachedEndLoading;
+    private Action<string> _cachedEndLoading;
 
     [Inject]
     public void Construct(SceneLoader sceneLoader)
@@ -22,7 +22,7 @@ public class LoadingScreen : MonoBehaviour
 
         _cachedProgressAction = x => loadingSlider.value = x;
         _cachedBeingLoading += () => canvas.enabled = true;
-        _cachedEndLoading += () => canvas.enabled = false;
+        _cachedEndLoading += (_) => canvas.enabled = false;
 
         _sceneLoader.OnBeginLoading += _cachedBeingLoading.Invoke;
         _sceneLoader.OnEndLoading += _cachedEndLoading.Invoke;

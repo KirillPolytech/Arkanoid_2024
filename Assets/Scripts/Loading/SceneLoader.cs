@@ -9,7 +9,7 @@ public class SceneLoader : MonoBehaviour
     
     public Action OnBeginLoading;
     public Action<float> OnLoadProgress;
-    public Action OnEndLoading;
+    public Action<string> OnEndLoading;
 
     public void LoadMenu()
     {
@@ -18,7 +18,7 @@ public class SceneLoader : MonoBehaviour
     
     public void LoadLevel()
     {
-        StartCoroutine(LoadScene(SceneNameStorage.LevelNames[0]));
+        StartCoroutine(LoadScene(SceneNameStorage.Level1));
     }
     
     private IEnumerator LoadScene(string sceneName)
@@ -40,6 +40,6 @@ public class SceneLoader : MonoBehaviour
             yield return new WaitForSeconds(Delay);
         }
         
-        OnEndLoading?.Invoke();
+        OnEndLoading?.Invoke(sceneName);
     }
 }

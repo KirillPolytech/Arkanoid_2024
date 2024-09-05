@@ -25,7 +25,7 @@ public class PlayState : State
         Cursor.lockState = CursorLockMode.Locked;
 
         Vector3 velocity = (Vector3.up + Vector3.right * Random.Range(-1f, 2f)).normalized * _settings.BallStartForce;
-        _ballPool.GetActiveBalls().First().Initialize(velocity, _initalPos.position);
+        _ballPool.GetActiveBalls().FirstOrDefault()?.Initialize(velocity, _initalPos.position);
     }
 
     public override void ExitState()
