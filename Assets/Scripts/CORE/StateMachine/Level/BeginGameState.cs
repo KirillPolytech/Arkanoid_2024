@@ -3,14 +3,14 @@ using Arkanoid.Settings;
 using Arkanoid.StateMachine;
 using UnityEngine;
 
-public class PlayState : State
+public class BeginGameState : State
 {
     private readonly LevelWindowController _windowController;
     private readonly BallPool _ballPool;
     private readonly Settings _settings;
     private readonly Transform _initalPos;
 
-    public PlayState(LevelWindowController windowController, BallPool ballPool, Settings settings, Transform initalPos)
+    public BeginGameState(LevelWindowController windowController, BallPool ballPool, Settings settings, Transform initalPos)
     {
         _windowController = windowController;
         _ballPool = ballPool;

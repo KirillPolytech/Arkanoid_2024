@@ -53,6 +53,11 @@ public class Pool<T> where T : Component
     {
         obj.GameObject().SetActive(false);
     }
+    
+    public T[] GetActive()
+    {
+        return _pool.Where(x => x.GameObject().activeSelf).ToArray();
+    }
 
     public void Reset()
     {

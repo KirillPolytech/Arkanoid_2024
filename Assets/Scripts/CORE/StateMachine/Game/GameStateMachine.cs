@@ -6,13 +6,13 @@ using UnityEngine;
 public class GameStateMachine : StateMachine, IDisposable
 {
     private readonly SceneLoader _sceneLoader;
-    private MusicPlayer _musicPlayer;
-    
+    private readonly MusicPlayer _musicPlayer;
+
     private GameStateMachine(SceneLoader sceneLoader, MusicPlayer musicPlayer)
     {
         _sceneLoader = sceneLoader;
         _musicPlayer = musicPlayer;
-        
+
         _states.Add(new LevelState());
 
         sceneLoader.OnEndLoading += ChangeStateBySceneName;
@@ -39,17 +39,14 @@ public class GameStateMachine : StateMachine, IDisposable
         switch (contains)
         {
             case true:
-                Cursor.lockState = CursorLockMode.Confined;
                 _musicPlayer.ChangeAudioClip(sceneName);
                 break;
             case false:
+                Cursor.lockState = CursorLockMode.Confined;
                 _musicPlayer.ChangeAudioClip(sceneName);
                 break;
-            default:
-                throw new Exception($"Unknown scene: {sceneName}");
         }
     }
-
 
     public void Dispose()
     {

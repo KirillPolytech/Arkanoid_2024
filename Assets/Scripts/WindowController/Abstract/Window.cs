@@ -2,6 +2,13 @@ using UnityEngine;
 
 public abstract class Window : MonoBehaviour
 {
-    public abstract void Open();
-    public abstract void Close();
+    public void Open()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void Close()
+    {
+        gameObject.SetActive(false);
+    }
 }

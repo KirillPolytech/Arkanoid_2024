@@ -9,14 +9,17 @@ public class BlockStorage : MonoBehaviour
 
     [SerializeField] private Collider[] blocks;
 
-    [SerializeField] private Buff buffPrefab;
+    [SerializeField] private Buff multipleBallPrefab;
+    [SerializeField] private Buff reduceSizePrefab;
 
-    private Pool<Buff> _poolBuff;
+    private Pool<Buff> _multipleBallPool;
+    private Pool<Buff> _reduceSizePool;
 
     [Inject]
     public void Construct(Arkanoid.Factory factory)
     {
-        _poolBuff = new Pool<Buff>(buffPrefab.gameObject, factory);
+        _multipleBallPool = new Pool<Buff>(multipleBallPrefab.gameObject, factory);
+        _reduceSizePool = new Pool<Buff>(reduceSizePrefab.gameObject, factory);
     }
 
     private void Awake()
@@ -25,13 +28,24 @@ public class BlockStorage : MonoBehaviour
         {
             block.OnCollisionEnterAsObservable().Subscribe(_ =>
             {
-                var obj = _poolBuff.Pop();
+                Buff obj = null;
+                int rand = Random.Range(0, 2);
+                switch (rand)
+                {
+                    case 0:
+                        obj = _multipleBallPool.Pop();
+                        break;
+                    case 1:
+                        obj = _reduceSizePool.Pop();
+                        break;
+                }
+                
                 obj.transform.SetPositionAndRotation(block.transform.position, Quaternion.identity);
                 block.gameObject.SetActive(false);
             }).AddTo(_disposables);
         }
     }
-
+    
     private void OnDisable()
     {
         _disposables.Clear();

@@ -4,6 +4,8 @@ using Arkanoid.Settings;
 
 public class Ball : MonoBehaviour
 {
+    private const float BlindArea = 0.1f;
+    
     public Rigidbody Rb { get; private set; }
     
     private Vector3 _lastVelocity;
@@ -22,6 +24,10 @@ public class Ball : MonoBehaviour
     private void FixedUpdate()
     {
         _lastVelocity = Rb.velocity;
+
+        float absY = Mathf.Abs(Rb.velocity.y); 
+        if (absY < BlindArea)
+            Rb.velocity += new Vector3(0, Random.Range(-1, 2), 0);
     }
     
     public void Initialize(Vector3 velocity, Vector3 pos)
@@ -47,7 +53,7 @@ public class Ball : MonoBehaviour
         if (rb)
             additionalDir = rb.velocity;
         
-        Rb.velocity = reflect.normalized * _settings.BallStartForce + additionalDir;
+        Rb.velocity = (reflect + additionalDir).normalized * _settings.BallStartForce;
     }
 
     private void OnDrawGizmos()

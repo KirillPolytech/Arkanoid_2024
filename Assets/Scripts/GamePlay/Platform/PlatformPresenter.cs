@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Arkanoid.InputSystem;
 using UnityEngine;
 using Zenject;
@@ -43,6 +44,18 @@ public class PlatformPresenter : IDisposable
             return;
         
         collision.gameObject.GetComponent<Buff>().Execute();
+    }
+
+    public void ReduceSize()
+    {
+        ReducingSize().ToObservable().Subscribe().AddTo(_disposables);
+    }
+
+    private IEnumerator ReducingSize()
+    {
+        _collider.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        yield return new WaitForSeconds(10);
+        _collider.transform.localScale = new Vector3(1f, 1f, 1f);
     }
 
     public void Dispose()

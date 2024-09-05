@@ -8,8 +8,9 @@ public class InitialState : State
     
     private Ball _ball;
     
-    public InitialState(BallPool ballPool, Transform ballDefaultPos)
+    public InitialState(BallPool ballPool, Transform ballDefaultPos, WindowController windowController)
     {
+        windowController.Open<GamePlayWindow>();
         _ballDefaultPos = ballDefaultPos;
         _ballPool = ballPool;
     }

@@ -13,7 +13,7 @@ namespace Arkanoid.InputSystem
 
         public void Tick()
         {
-            _inputData.HorizontalInputValue = Input.GetAxis(GlobalVariables.HorizontalInput);
+            _inputData.HorizontalInputValue = Input.GetAxisRaw(GlobalVariables.HorizontalInput);
             _inputData.EscapePressed = Input.GetKeyDown(GlobalVariables.Escape);
             _inputData.IsLMBPressed = Input.GetMouseButtonDown(GlobalVariables.LMB);
 
