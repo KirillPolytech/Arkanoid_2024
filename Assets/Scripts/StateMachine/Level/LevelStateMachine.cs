@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Arkanoid.InputSystem;
 using Arkanoid.StateMachine;
+using UnityEngine;
 using Zenject;
 
 public class LevelStateMachine : StateMachine, IDisposable
@@ -14,10 +15,13 @@ public class LevelStateMachine : StateMachine, IDisposable
     public LevelStateMachine(
         TimeFreezer timeFreezer,
         LevelWindowController levelWindowController,
-        InputHandler inputHandler)
+        InputHandler inputHandler,
+        BallPool ballPool,
+        Transform ballDefaultPos)
     {
         _states.Add(new PauseState(timeFreezer, levelWindowController));
-        _states.Add(new PlayState(levelWindowController));
+        _states.Add(new PlayState(levelWindowController, ballPool.GetActiveBalls()[0]));
+        _states.Add(new InitialState(ballPool, ballDefaultPos));
 
         _inputHandler = inputHandler;
         _inputHandler.OnInputDataUpdate += HandlePauseWindow;

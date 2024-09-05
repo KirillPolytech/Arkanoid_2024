@@ -9,6 +9,9 @@ public class LevelContext : MonoInstaller
     [SerializeField] private Rigidbody platformRb;
     [SerializeField] private Collider platformCollider;
     
+    [SerializeField] private Ball ballPrefab;
+    [SerializeField] private Transform ballDefaultPos;
+    
     [SerializeField] private Collider loseTrigger;
     
     [SerializeField] private TextMeshProUGUI healthText;
@@ -19,11 +22,15 @@ public class LevelContext : MonoInstaller
 
     public override void InstallBindings()
     {
+        Container.Bind<Arkanoid.Factory>().AsSingle();
+        
         Container.BindInstance(settings).AsSingle();
         
         Container.BindInterfacesAndSelfTo<InputHandler>().AsSingle();
         Container.Bind<TimeFreezer>().AsSingle();
         Container.BindInstance(levelWindowController).AsSingle();
+        
+        Container.Bind<BallPool>().AsSingle().WithArguments(ballPrefab.gameObject);
 
         Container.Bind<PlatformModel>().AsSingle().WithArguments(platformRb);
         Container.BindInterfacesAndSelfTo<PlatformPresenter>().AsSingle().WithArguments(platformCollider);
@@ -33,6 +40,6 @@ public class LevelContext : MonoInstaller
 
         Container.Bind<LoseTrigger>().AsSingle().WithArguments(loseTrigger);
         
-        Container.Bind<LevelStateMachine>().AsSingle().NonLazy();
+        Container.Bind<LevelStateMachine>().AsSingle().WithArguments(ballDefaultPos);
     }
 }

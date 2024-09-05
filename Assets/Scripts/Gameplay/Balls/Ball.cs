@@ -1,64 +1,60 @@
-using Arkanoid.InputSystem;
 using UnityEngine;
 using Zenject;
-using Random = UnityEngine.Random;
 using Arkanoid.Settings;
 
 public class Ball : MonoBehaviour
 {
-    private Rigidbody _rb;
+    public Rigidbody Rb { get; private set; }
+    
     private Vector3 _lastVelocity;
     private Settings _settings;
-    private InputHandler _inputHandler;
 
     private bool _isActive;
     
     [Inject]
-    public void Construct(Settings settings, InputHandler inputHandler)
+    public void Construct(Settings settings)
     {
         _settings = settings;
-        _inputHandler = inputHandler;
-
-        _inputHandler.OnInputDataUpdate += CheckInput;
         
-        _rb = GetComponent<Rigidbody>();
+        Rb = GetComponent<Rigidbody>();
     }
-
-    private void CheckInput(InputData inputData)
-    {
-        if (!inputData.IsLMBPressed || _isActive)
-            return;
-        
-        float randX = Random.Range(-_settings.StartRange, _settings.StartRange);
-        Vector3 randomDir = (Vector3.up + new Vector3(randX, 0, 0)).normalized * _settings.BallStartForce;
-        _rb.velocity = randomDir;
-
-        _isActive = true;
-    }
-
+    
     private void FixedUpdate()
     {
-        _lastVelocity = _rb.velocity;
+        _lastVelocity = Rb.velocity;
+    }
+    
+    public void Initialize(Vector3 velocity, Vector3 pos)
+    {
+        Rb.position = pos;
+        Rb.velocity = velocity;
+    }
+
+    public void SetPosition(Vector3 pos)
+    {
+        transform.position = pos;
     }
 
     private void OnCollisionEnter(Collision other)
     {
         Vector3 inDir = _lastVelocity;
         Vector3 reflect = Vector3.Reflect(inDir, other.contacts[0].normal);
-        
-        _rb.velocity = reflect.normalized * _settings.BallStartForce;
-    }
 
-    private void OnDisable()
-    {
-        _inputHandler.OnInputDataUpdate -= CheckInput;
+        Vector3 additionalDir = Vector3.zero;
+
+        Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
+
+        if (rb)
+            additionalDir = rb.velocity;
+        
+        Rb.velocity = reflect.normalized * _settings.BallStartForce + additionalDir;
     }
 
     private void OnDrawGizmos()
     {
-        if (!_rb)
+        if (!Rb)
             return;
 
-        Debug.DrawRay(transform.position, _rb.velocity.normalized, Color.green);
+        Debug.DrawRay(transform.position, Rb.velocity.normalized, Color.green);
     }
 }

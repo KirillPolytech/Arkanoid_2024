@@ -1,17 +1,31 @@
+using System.Collections.Generic;
+using UnityEngine;
+using Zenject;
+
 public class MultiplyBallsBuff : Buff
 {
-    private Pool<Ball> _ballPool;
+    private BallPool _ballPool;
     
-    public void Construct(Ball[] currentBalls, Ball ballPrefab)
+    [Inject]
+    public void Construct(BallPool ballPool)
     {
-        _ballPool = new Pool<Ball>(ballPrefab);
+        _ballPool = ballPool;
     }
 
     public override void Execute()
     {
-        foreach (var VARIABLE in main)
+        Ball[] balls = _ballPool.GetActiveBalls();
+        List<Ball> clonedBalls = new List<Ball>();
+
+        for (int i = 0; i < balls.Length; i++)
         {
+            Ball temp = _ballPool.Pop();
+
+            Vector3 pos = balls[i].Rb.position + balls[i].transform.right;
+            Vector3 velocity = balls[i].Rb.velocity;
+            temp.Initialize(velocity, pos);
             
+            clonedBalls.Add(_ballPool.Pop());
         }
     }
 }

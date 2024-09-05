@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class LevelEntryPoint : MonoBehaviour
+public class Level : MonoBehaviour
 {
     [SerializeField] private Button continueButton;
     [SerializeField] private Button exitButton;
@@ -26,7 +26,7 @@ public class LevelEntryPoint : MonoBehaviour
 
         //loseTrigger.OnBallEnter += ;
         
-        levelStateMachine.SetState<PlayState>();
+        levelStateMachine.SetState<InitialState>();
     }
 
     private void OnDisable()

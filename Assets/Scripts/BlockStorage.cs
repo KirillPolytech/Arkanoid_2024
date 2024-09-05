@@ -1,6 +1,7 @@
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Zenject;
 
 public class BlockStorage : MonoBehaviour
 {
@@ -8,16 +9,20 @@ public class BlockStorage : MonoBehaviour
 
     [SerializeField] private Collider[] blocks;
 
-    [SerializeField] private GameObject buffPrefab;
+    [SerializeField] private Buff buffPrefab;
 
-    private Pool<GameObject> _poolBuff;
+    private Pool<Buff> _poolBuff;
+
+    [Inject]
+    public void Construct(Arkanoid.Factory factory)
+    {
+        _poolBuff = new Pool<Buff>(buffPrefab.gameObject, factory);
+    }
 
     private void Awake()
     {
-        _poolBuff = new Pool<GameObject>(buffPrefab);
-
         foreach (var block in blocks)
-        {   
+        {
             block.OnCollisionEnterAsObservable().Subscribe(_ =>
             {
                 var obj = _poolBuff.Pop();
