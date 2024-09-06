@@ -1,27 +1,40 @@
 using UnityEngine;
 using Zenject;
 using Arkanoid.Settings;
+using UniRx;
+using UniRx.Triggers;
 using Random = UnityEngine.Random;
 
-public class Ball : MonoBehaviour
+public class Ball
 {
     private const float BlindArea = 0.5f;
 
+    private readonly Settings _settings;
+    private Collider _collider;
+
     public Rigidbody Rb { get; private set; }
+    public GameObject GameObject { get; private set; }
+    public Transform Transform { get; private set; }
 
     private Vector3 _lastVelocity;
-    private Settings _settings;
     private bool _initialized;
 
     [Inject]
-    public void Construct(Settings settings)
+    public Ball(Settings settings, Rigidbody rb, CompositeDisposable disposables)
     {
         _settings = settings;
+        Rb = rb;
+        Transform = rb.transform;
+        GameObject = rb.gameObject;
+        _collider = rb.GetComponent<Collider>();
 
-        Rb = GetComponent<Rigidbody>();
+
+        _collider.OnCollisionEnterAsObservable().Subscribe(OnCollisionEnter).AddTo(disposables);
+
+        _collider.OnDisableAsObservable().Subscribe(_ => OnDisable()).AddTo(disposables);
     }
-
-    private void FixedUpdate()
+    
+    public void FixedTick()
     {
         if (!_initialized)
             return;
@@ -39,7 +52,7 @@ public class Ball : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
-        transform.position = pos;
+        Transform.position = pos;
     }
 
     private void OnCollisionEnter(Collision other)
@@ -67,7 +80,7 @@ public class Ball : MonoBehaviour
         {
             Rb.velocity += new Vector3(0, Random.Range(-1, 2) * 1 / BlindArea, 0);
         }
-        
+
         if (absX < BlindArea)
         {
             Rb.velocity += new Vector3(Random.Range(-1, 2) * 1 / BlindArea, 0, 0);
@@ -79,13 +92,5 @@ public class Ball : MonoBehaviour
         Rb.position = Vector3.zero;
         Rb.velocity = Vector3.zero;
         _initialized = false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (!Rb)
-            return;
-
-        Debug.DrawRay(transform.position, Rb.velocity.normalized, Color.green);
     }
 }

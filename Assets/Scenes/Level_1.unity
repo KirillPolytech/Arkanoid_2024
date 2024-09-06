@@ -6736,6 +6736,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1005618886}
     - target: {fileID: 4021534064638195931, guid: f2e4a654541d9e54c8fbf77031c6b424, type: 3}
+      propertyPath: ballPrefab
+      value: 
+      objectReference: {fileID: 7706726680199733710, guid: 53fc5cd06be30cf4cac81bab9693efc5, type: 3}
+    - target: {fileID: 4021534064638195931, guid: f2e4a654541d9e54c8fbf77031c6b424, type: 3}
       propertyPath: healthText
       value: 
       objectReference: {fileID: 1945139735}

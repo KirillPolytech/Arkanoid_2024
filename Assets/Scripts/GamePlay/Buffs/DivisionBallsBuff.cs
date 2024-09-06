@@ -25,7 +25,7 @@ public class DivisionBallsBuff : Buff
             if (temp == null)
                 break;
 
-            Vector3 pos = ball.Rb.position + ball.transform.right;
+            Vector3 pos = ball.Rb.position + ball.Transform.right;
             Vector3 velocity = (Vector3.up * Random.Range(-1, 2f) + Vector3.right * Random.Range(-1, 2f)).normalized *
                                ball.Rb.velocity.magnitude;
             temp.Initialize(velocity, pos);

@@ -24,7 +24,8 @@ namespace SlimUI.ModernMenu{
         public enum Theme {custom1, custom2, custom3};
         [Header("THEME SETTINGS")]
         public Theme theme;
-        private int _themeIndex;
+
+        public int ThemeIndex { get; private set; }
         public ThemedUIData themeController;
 
         [Header("PANELS")]
@@ -80,7 +81,12 @@ namespace SlimUI.ModernMenu{
         [Tooltip("The GameObject holding the Audio Source component for the SWOOSH SOUND when switching to the Settings Screen")]
         public AudioSource swooshSound;
 
-		void Start(){
+        public UIMenuManager(int themeIndex)
+        {
+	        ThemeIndex = themeIndex;
+        }
+
+        void Start(){
 			CameraObject = transform.GetComponent<Animator>();
 
 			playMenu.SetActive(false);
@@ -99,17 +105,17 @@ namespace SlimUI.ModernMenu{
 				case Theme.custom1:
 					themeController.currentColor = themeController.custom1.graphic1;
 					themeController.textColor = themeController.custom1.text1;
-					_themeIndex = 0;
+					ThemeIndex = 0;
 					break;
 				case Theme.custom2:
 					themeController.currentColor = themeController.custom2.graphic2;
 					themeController.textColor = themeController.custom2.text2;
-					_themeIndex = 1;
+					ThemeIndex = 1;
 					break;
 				case Theme.custom3:
 					themeController.currentColor = themeController.custom3.graphic3;
 					themeController.textColor = themeController.custom3.text3;
-					_themeIndex = 2;
+					ThemeIndex = 2;
 					break;
 				default:
 					Debug.Log("Invalid theme selected.");

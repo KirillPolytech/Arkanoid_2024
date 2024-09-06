@@ -16,7 +16,7 @@ public class LevelContext : MonoInstaller
 
     [Space(15)] [SerializeField] private Buff[] buffPrefabs;
 
-    [Space(15)] [SerializeField] private Ball ballPrefab;
+    [Space(15)] [SerializeField] private Rigidbody ballPrefab;
     [SerializeField] private Transform ballDefaultPos;
 
     [Space(15)] [SerializeField] private Collider loseTrigger;
@@ -72,7 +72,7 @@ public class LevelContext : MonoInstaller
 
     private void BindPools()
     {
-        Container.Bind<BallPool>().AsSingle().WithArguments(ballPrefab.gameObject);
+        Container.BindInterfacesAndSelfTo<BallPool>().AsSingle().WithArguments(ballPrefab);
         Container.Bind<BlockPool>().AsSingle().WithArguments(blockPrefab);
     }
 }
