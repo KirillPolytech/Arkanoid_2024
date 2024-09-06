@@ -23,9 +23,9 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(LoadScene(SceneNameStorage.MenuName));
     }
     
-    public void LoadLevel()
+    public void LoadLevel(int ind)
     {
-        StartCoroutine(LoadScene(SceneNameStorage.Level1));
+        StartCoroutine(LoadScene(SceneNameStorage.Levels[ind]));
     }
     
     private IEnumerator LoadScene(string sceneName)

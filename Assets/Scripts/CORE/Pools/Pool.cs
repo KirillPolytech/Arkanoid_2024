@@ -8,6 +8,7 @@ using UnityEngine;
 public class Pool<T> where T : Component
 {
     protected const int DefaultAmount = 10;
+    protected const int Limit = 100;
 
     private readonly Factory _factory;
     protected readonly List<T> _pool = new List<T>();
@@ -28,6 +29,9 @@ public class Pool<T> where T : Component
 
     private T Instantiate()
     {
+        if (_pool.Count >= Limit)
+            return null;
+        
         GameObject obj = _factory.CreateInstance(_prefab);
 
         T t = obj.GetComponent<T>();
@@ -45,6 +49,9 @@ public class Pool<T> where T : Component
 
         if (freeGameObject == null)
             freeGameObject = Instantiate();
+
+        if (freeGameObject == null)
+            return null;
 
         freeGameObject.GameObject().SetActive(true);
         return freeGameObject;

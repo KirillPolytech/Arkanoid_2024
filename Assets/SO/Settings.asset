@@ -18,4 +18,5 @@ MonoBehaviour:
   StartRange: 3
   buffDuration: 5
   coefficient: 2
-  HitToDestructRange: 3
+  DropProbability: 10
+  HitToDestructRange: 0

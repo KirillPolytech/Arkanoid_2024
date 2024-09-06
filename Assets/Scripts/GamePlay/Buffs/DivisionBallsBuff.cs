@@ -21,6 +21,9 @@ public class DivisionBallsBuff : Buff
         foreach (var ball in balls)
         {
             Ball temp = _ballPool.Pop();
+            
+            if (temp == null)
+                break;
 
             Vector3 pos = ball.Rb.position + ball.transform.right;
             Vector3 velocity = (Vector3.up * Random.Range(-1, 2f) + Vector3.right * Random.Range(-1, 2f)).normalized *
