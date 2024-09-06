@@ -6742,7 +6742,7 @@ PrefabInstance:
     - target: {fileID: 4021534064638195931, guid: f2e4a654541d9e54c8fbf77031c6b424, type: 3}
       propertyPath: platformRb
       value: 
-      objectReference: {fileID: 588872512804302273}
+      objectReference: {fileID: 0}
     - target: {fileID: 4021534064638195931, guid: f2e4a654541d9e54c8fbf77031c6b424, type: 3}
       propertyPath: loseTrigger
       value: 
@@ -6750,7 +6750,7 @@ PrefabInstance:
     - target: {fileID: 4021534064638195931, guid: f2e4a654541d9e54c8fbf77031c6b424, type: 3}
       propertyPath: platformCollider
       value: 
-      objectReference: {fileID: 588872512804302276}
+      objectReference: {fileID: 0}
     - target: {fileID: 4021534064638195931, guid: f2e4a654541d9e54c8fbf77031c6b424, type: 3}
       propertyPath: blocks.Array.size
       value: 240
@@ -21637,73 +21637,6 @@ BoxCollider:
   m_CorrespondingSourceObject: {fileID: 2230678153484054399, guid: 79a96b9d53a54ad4e9318d681cb9d190, type: 3}
   m_PrefabInstance: {fileID: 2142146211}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &588872512804302272
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 588872513497771337, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_Name
-      value: Platform
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -7.92
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 588872513497771341, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
---- !u!54 &588872512804302273 stripped
-Rigidbody:
-  m_CorrespondingSourceObject: {fileID: 588872513497771342, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-  m_PrefabInstance: {fileID: 588872512804302272}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &588872512804302276 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 588872512804302276, guid: f723c612e231bfd438f7b7f6b2c570c7, type: 3}
-  m_PrefabInstance: {fileID: 588872512804302272}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2230678152894103504
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21766,7 +21699,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 739420230}
-  - {fileID: 588872512804302272}
   - {fileID: 1434533750}
   - {fileID: 2759751}
   - {fileID: 808239660}
