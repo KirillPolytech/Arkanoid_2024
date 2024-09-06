@@ -27,4 +27,10 @@ public class HealthPresenter : IInitializable
         
         OnHealthLose?.Invoke(_health.CurrentHealth);
     }
+
+    public void Reset()
+    {
+        _health.Reset();
+        _healthView.DrawHealth(_health.CurrentHealth);
+    }
 }

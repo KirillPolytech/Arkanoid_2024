@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BlockPool : Pool<Collider>
 {
-    public BlockPool(GameObject prefab, Factory factory, BlockProvider dataProvider) : base(prefab, factory)
+    public BlockPool(GameObject prefab, Factory factory, BlockProvider dataProvider) : base(prefab, factory, 0)
     {
         _pool.AddRange(dataProvider.GetArray());
     }

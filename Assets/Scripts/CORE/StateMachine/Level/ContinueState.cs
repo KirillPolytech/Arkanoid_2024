@@ -1,12 +1,12 @@
 using Arkanoid.StateMachine;
 using UnityEngine;
 
-public class ContinueGameState : State
+public class ContinueState : State
 {
     private readonly TimeFreezer _timeFreezer;
     private readonly LevelWindowController _levelWindowController;
 
-    public ContinueGameState(TimeFreezer timeFreezer, LevelWindowController levelWindowController)
+    public ContinueState(TimeFreezer timeFreezer, LevelWindowController levelWindowController)
     {
         _timeFreezer = timeFreezer;
         _levelWindowController = levelWindowController;

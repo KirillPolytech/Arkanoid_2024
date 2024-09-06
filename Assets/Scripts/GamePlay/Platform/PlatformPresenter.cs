@@ -19,6 +19,8 @@ public class PlatformPresenter : IDisposable
 
     private Collider _collider;
 
+    private Vector3 _initalPosition;
+
     [Inject]
     public void Construct(
         Collider col,
@@ -36,6 +38,8 @@ public class PlatformPresenter : IDisposable
         _collider.OnCollisionEnterAsObservable().Subscribe(HandleCollision).AddTo(_disposables);
 
         _inputHandler.OnInputDataUpdateFixed += _cachedAddForce;
+
+        _initalPosition = _collider.transform.position;
     }
 
     private void HandleCollision(Collision collision)
@@ -48,6 +52,9 @@ public class PlatformPresenter : IDisposable
 
     public void Resize(float koeff, float duration)
     {
+        if (_collider.transform.localScale != Vector3.one)
+            return;
+        
         Resizing(koeff, duration).ToObservable().Subscribe().AddTo(_disposables);
     }
 
@@ -56,6 +63,11 @@ public class PlatformPresenter : IDisposable
         _collider.transform.localScale /= koeff;
         yield return new WaitForSeconds(duration);
         _collider.transform.localScale = Vector3.one;
+    }
+
+    public void Reset()
+    {
+        _collider.transform.position = _initalPosition;
     }
 
     public void Dispose()

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Zenject;
 using Arkanoid.Settings;
+using Random = UnityEngine.Random;
 
 public class Ball : MonoBehaviour
 {
@@ -59,6 +60,13 @@ public class Ball : MonoBehaviour
             additionalDir = rb.velocity;
         
         Rb.velocity = (reflect + additionalDir).normalized * _settings.BallStartForce;
+    }
+
+    private void OnDisable()
+    {
+        Rb.position = Vector3.zero;
+        Rb.velocity = Vector3.zero;
+        _initialized = false;
     }
 
     private void OnDrawGizmos()

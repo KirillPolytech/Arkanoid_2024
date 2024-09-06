@@ -1,70 +1,83 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
 public class BlockService : IInitializable, IDisposable
 {
-    private readonly CompositeDisposable _disposables = new CompositeDisposable();
-
-    public Action<int> OnBlockHit;
+    private const int Min = 0;
+    private const int Max = 10;
     
-    private Pool<Buff> _divisionBallPool;
-    private Pool<Buff> _reduceSizePool;
-    private Pool<Buff> _expandSizePool;
-    private Collider[] _blocks;
+    private readonly CompositeDisposable _disposables = new CompositeDisposable();
+    private readonly List<Pool<Buff>> _buffs = new List<Pool<Buff>>();
+    private readonly List<Block> _blocks = new List<Block>();
+    private readonly List<Action> _cachedActions = new List<Action>();
+
+    public Action<int> OnBlockDestruct;
+
+    private Collider[] _blockColliders;
+    private PlayerCamera _playerCamera;
 
     [Inject]
-    public void Construct(Arkanoid.Factory factory, 
-        BlockProvider dataProvider,
-        Buff divisionBallPrefab,
-        Buff reduceSizePrefab,
-        Buff expandSizePrefab)
+    public void Construct(
+        BlockProvider blockProvider,
+        BuffPoolsProvider buffPoolsProvider,
+        PlayerCamera playerCamera)
     {
-        _blocks = dataProvider.GetArray();
+        _playerCamera = playerCamera;
+        _blockColliders = blockProvider.GetArray();
 
-        _divisionBallPool = new Pool<Buff>(divisionBallPrefab.gameObject, factory);
-        _reduceSizePool = new Pool<Buff>(reduceSizePrefab.gameObject, factory);
-        _expandSizePool = new Pool<Buff>(expandSizePrefab.gameObject, factory);
+        _buffs.AddRange(buffPoolsProvider.GetArray());
     }
 
     public void Initialize()
     {
-        foreach (var block in _blocks)
+        foreach (var blockCol in _blockColliders)
         {
-            block.OnCollisionEnterAsObservable().Subscribe(col =>
+            int hitToDestruct = Random.Range(Min, Max);
+
+            BlockData blockData = new BlockData
             {
-                HandleCollision(col, block);
-            }).AddTo(_disposables);
+                Col = blockCol,
+                text = blockCol.gameObject.GetComponentInChildren<TextMeshProUGUI>(),
+                Canv = blockCol.gameObject.GetComponentInChildren<Canvas>()
+            };
+
+            blockData.Canv.worldCamera = _playerCamera.Cam;
+
+            Block block = new Block(blockData, GetRandomPoolBuff(), hitToDestruct, _disposables);
+
+            _blocks.Add(block);
+
+            Action cached = () => 
+                OnBlockDestruct?.Invoke(_blockColliders.Count(x => x.gameObject.activeSelf));
+
+            _cachedActions.Add(cached);
+
+            block.OnDestruct += cached.Invoke;
         }
     }
 
-    private void HandleCollision(Collision col, Collider block)
+    private Pool<Buff> GetRandomPoolBuff()
     {
-        if (!col.gameObject.CompareTag(TagStorage.BallTag))
-            return;
-        
-        OnBlockHit?.Invoke(_blocks.Count(x => x.gameObject.activeSelf));
-                
-        Buff obj = null;
-        int rand = Random.Range(0, 10);
-        obj = rand switch
-        {
-            0 => _divisionBallPool.Pop(),
-            1 => _reduceSizePool.Pop(),
-            2 => _expandSizePool.Pop(),
-            _ => obj
-        };
-        if (obj)
-            obj.transform.SetPositionAndRotation(block.transform.position, Quaternion.identity);
-        block.gameObject.SetActive(false);
+        int rand = Random.Range(Min, Max);
+        return rand >= _buffs.Count ? null : _buffs.ElementAt(rand);
     }
 
     public void Dispose()
     {
+        for (int i = 0; i < _cachedActions.Count; i++)
+        {
+            _blocks[i].OnDestruct -= _cachedActions[i];
+        }
+        
+        _cachedActions.Clear();
+        _blocks.Clear();
+        
         _disposables?.Dispose();
     }
 }

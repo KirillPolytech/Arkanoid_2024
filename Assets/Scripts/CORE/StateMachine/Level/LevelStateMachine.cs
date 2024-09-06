@@ -18,6 +18,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     [Inject]
     public LevelStateMachine(
+        PlatformPresenter platformPresenter,
         TimeFreezer timeFreezer,
         LevelWindowController levelWindowController,
         InputHandler inputHandler,
@@ -29,10 +30,11 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         BlockService blockService,
         Transform ballDefaultPos)
     {
-        _states.Add(new InitialState(blockPool, ballPool, ballDefaultPos, levelWindowController, timeFreezer));
-        _states.Add(new BeginGameState(levelWindowController, ballPool, settings, ballDefaultPos));
+        _states.Add(new InitialState(blockPool, ballPool, ballDefaultPos, levelWindowController, timeFreezer, healthPresenter));
+        _states.Add(new BeginState(levelWindowController, ballPool, settings, ballDefaultPos));
         _states.Add(new PauseState(timeFreezer, levelWindowController));
-        _states.Add(new ContinueGameState(timeFreezer, levelWindowController));
+        _states.Add(new ContinueState(timeFreezer, levelWindowController));
+        _states.Add(new ResetState(ballPool, ballDefaultPos, levelWindowController, timeFreezer, platformPresenter));
         _states.Add(new LoseState(timeFreezer, levelWindowController));
         _states.Add(new WinState(timeFreezer, levelWindowController));
 
@@ -46,7 +48,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         _inputHandler.OnInputDataUpdate += BeginGame;
         _healthPresenter.OnHealthLose += HandleHealthCount;
         _loseTrigger.OnBallEnter += HandleBallCount;
-        _blockService.OnBlockHit += HandleActiveBlockCount;
+        _blockService.OnBlockDestruct += HandleActiveBlockCount;
     }
 
     public void Initialize()
@@ -73,10 +75,11 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         if (!inputData.IsSpacePressed)
             return;
 
-        if (CurrentState.GetType() != typeof(InitialState))
+        if (CurrentState.GetType() != typeof(InitialState) 
+            && CurrentState.GetType() != typeof(ResetState))
             return;
 
-        SetState<BeginGameState>();
+        SetState<BeginState>();
     }
 
     private void HandlePauseWindow(InputData data)
@@ -88,7 +91,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
         if (_lastState != null)
         {
-            SetState<ContinueGameState>();
+            SetState<ContinueState>();
             _lastState = null;
             return;
         }
@@ -108,10 +111,10 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     private void HandleBallCount()
     {
-        if (_ballPool.GetActiveBalls().Length > 0)
+        if (_ballPool.GetActive().Length > 0)
             return;
 
-        SetState<InitialState>();
+        SetState<ResetState>();
         _healthPresenter.LoseHealth();
     }
 
@@ -119,7 +122,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
     {
         if (count > 1)
             return;
-        
+
         SetState<WinState>();
     }
 
@@ -129,6 +132,6 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         _healthPresenter.OnHealthLose -= HandleHealthCount;
         _inputHandler.OnInputDataUpdate -= BeginGame;
         _loseTrigger.OnBallEnter -= _healthPresenter.LoseHealth;
-        _blockService.OnBlockHit -= HandleActiveBlockCount;
+        _blockService.OnBlockDestruct -= HandleActiveBlockCount;
     }
 }

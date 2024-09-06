@@ -14,7 +14,7 @@ public class Pool<T> where T : Component
 
     private readonly GameObject _prefab;
 
-    public Pool(GameObject prefab, Factory factory, [Optional] int amount)
+    public Pool(GameObject prefab, Factory factory, [DefaultParameterValue(DefaultAmount)][Optional] int amount)
     {
         _factory = factory;
 
@@ -54,11 +54,8 @@ public class Pool<T> where T : Component
     {
         obj.GameObject().SetActive(false);
     }
-    
-    public T[] GetActive()
-    {
-        return _pool.Where(x => x.GameObject().activeSelf).ToArray();
-    }
+
+    public T[] GetActive() => _pool.Where(x => x.GameObject().activeSelf).ToArray();
 
     public void Reset()
     {

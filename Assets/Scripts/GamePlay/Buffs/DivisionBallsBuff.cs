@@ -16,7 +16,7 @@ public class DivisionBallsBuff : Buff
         if (!gameObject.activeSelf)
             return;
         
-        Ball[] balls = _ballPool.GetActiveBalls();
+        Ball[] balls = _ballPool.GetActive();
 
         foreach (var ball in balls)
         {

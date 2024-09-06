@@ -6,10 +6,14 @@ public class Health
 {
     public int CurrentHealth { get; private set; }
 
+    private readonly Settings _settings;
+
     [Inject]
     public Health(Settings settings)
     {
-        CurrentHealth = settings.Health;
+        _settings = settings;
+
+        Reset();
     }
 
     public void LoseHealth()
@@ -18,5 +22,10 @@ public class Health
             throw new Exception("Health below zero");
 
         CurrentHealth--;
+    }
+
+    public void Reset()
+    {
+        CurrentHealth = _settings.Health;
     }
 }

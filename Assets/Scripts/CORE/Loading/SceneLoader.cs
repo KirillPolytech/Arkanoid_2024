@@ -13,9 +13,9 @@ public class SceneLoader : MonoBehaviour
 
     private void Start()
     {
-        //#if !UNITY_EDITOR
+        #if !UNITY_EDITOR
         LoadMenu();
-        //#endif
+        #endif
     }
 
     public void LoadMenu()

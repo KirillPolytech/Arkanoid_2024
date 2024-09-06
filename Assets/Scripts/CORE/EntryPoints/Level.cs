@@ -21,22 +21,22 @@ public class Level : MonoBehaviour
         _sceneLoader = sceneLoader;
         _levelStateMachine = levelStateMachine;
         
-        continueButton.onClick.AddListener(_levelStateMachine.SetState<BeginGameState>);
+        continueButton.onClick.AddListener(_levelStateMachine.SetState<BeginState>);
         restartButton.onClick.AddListener(_levelStateMachine.SetState<InitialState>);
 
         foreach (var button in exitButton)
         {
-            button.onClick.AddListener(_levelStateMachine.SetState<BeginGameState>);
+            button.onClick.AddListener(_levelStateMachine.SetState<BeginState>);
             button.onClick.AddListener(_sceneLoader.LoadMenu);
         }
     }
 
     private void OnDisable()
     {
-        continueButton.onClick.RemoveListener(_levelStateMachine.SetState<BeginGameState>);
+        continueButton.onClick.RemoveListener(_levelStateMachine.SetState<BeginState>);
         foreach (var button in exitButton)
         {
-            button.onClick.RemoveListener(_levelStateMachine.SetState<BeginGameState>);
+            button.onClick.RemoveListener(_levelStateMachine.SetState<BeginState>);
             button.onClick.RemoveListener(_sceneLoader.LoadMenu);
         }
     }

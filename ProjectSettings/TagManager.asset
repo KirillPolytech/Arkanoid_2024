@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ball
   - Buff
+  - ship
+  - asteroid
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - Buff
   - Ball
   - Block
-  - 
+  - Enviroment
   - 
   - 
   - 
