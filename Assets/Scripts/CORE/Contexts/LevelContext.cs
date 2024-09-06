@@ -7,18 +7,16 @@ using Arkanoid.Settings;
 public class LevelContext : MonoInstaller
 {
     [SerializeField] private Camera cam;
-    
+
     [SerializeField] private GameObject blockPrefab;
     [SerializeField] private Collider[] blocks;
 
     [SerializeField] private Rigidbody platformRb;
     [SerializeField] private Collider platformCollider;
 
-    [Space(15)] 
-    [SerializeField] private Buff[] buffPrefabs;
+    [Space(15)] [SerializeField] private Buff[] buffPrefabs;
 
-    [Space(15)] 
-    [SerializeField] private Ball ballPrefab;
+    [Space(15)] [SerializeField] private Ball ballPrefab;
     [SerializeField] private Transform ballDefaultPos;
 
     [Space(15)] [SerializeField] private Collider loseTrigger;
@@ -32,7 +30,7 @@ public class LevelContext : MonoInstaller
     public override void InstallBindings()
     {
         Container.Bind<PlayerCamera>().AsSingle().WithArguments(cam);
-        
+
         Container.Bind<Arkanoid.Factory>().AsSingle();
 
         Container.BindInstance(settings).AsSingle();
@@ -40,13 +38,8 @@ public class LevelContext : MonoInstaller
         Container.Bind<TimeFreezer>().AsSingle();
         Container.BindInstance(levelWindowController).AsSingle();
 
-        Container.Bind<BlockProvider>().AsSingle().WithArguments(blocks);
-        Container.BindInstance(new BuffPrefabProvider(buffPrefabs)).AsSingle();
-        
-        Container.Bind<BallPool>().AsSingle().WithArguments(ballPrefab.gameObject);
-        Container.Bind<BlockPool>().AsSingle().WithArguments(blockPrefab);
-        Container.Bind<BuffPoolsProvider>().AsSingle();
-        
+        BindProviders();
+        BindPools();
         BindPlatform();
         BindHealth();
 
@@ -68,5 +61,18 @@ public class LevelContext : MonoInstaller
     {
         Container.Bind<PlatformModel>().AsSingle().WithArguments(platformRb);
         Container.BindInterfacesAndSelfTo<PlatformPresenter>().AsSingle().WithArguments(platformCollider);
+    }
+
+    private void BindProviders()
+    {
+        Container.Bind<BlockProvider>().AsSingle().WithArguments(blocks);
+        Container.BindInstance(new BuffPrefabProvider(buffPrefabs)).AsSingle();
+        Container.Bind<BuffPoolsProvider>().AsSingle();
+    }
+
+    private void BindPools()
+    {
+        Container.Bind<BallPool>().AsSingle().WithArguments(ballPrefab.gameObject);
+        Container.Bind<BlockPool>().AsSingle().WithArguments(blockPrefab);
     }
 }

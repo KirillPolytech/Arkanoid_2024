@@ -16,3 +16,6 @@ MonoBehaviour:
   PlatformSpeed: 15
   BallStartForce: 15
   StartRange: 3
+  buffDuration: 5
+  coefficient: 2
+  HitToDestructRange: 3

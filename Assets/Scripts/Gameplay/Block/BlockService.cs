@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Arkanoid.Settings;
 using TMPro;
 using UniRx;
 using UnityEngine;
@@ -9,9 +10,6 @@ using Random = UnityEngine.Random;
 
 public class BlockService : IInitializable, IDisposable
 {
-    private const int Min = 0;
-    private const int Max = 10;
-    
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
     private readonly List<Pool<Buff>> _buffs = new List<Pool<Buff>>();
     private readonly List<Block> _blocks = new List<Block>();
@@ -21,14 +19,17 @@ public class BlockService : IInitializable, IDisposable
 
     private Collider[] _blockColliders;
     private PlayerCamera _playerCamera;
+    private Settings _settings;
 
     [Inject]
     public void Construct(
         BlockProvider blockProvider,
         BuffPoolsProvider buffPoolsProvider,
-        PlayerCamera playerCamera)
+        PlayerCamera playerCamera,
+        Settings settings)
     {
         _playerCamera = playerCamera;
+        _settings = settings;
         _blockColliders = blockProvider.GetArray();
 
         _buffs.AddRange(buffPoolsProvider.GetArray());
@@ -38,7 +39,7 @@ public class BlockService : IInitializable, IDisposable
     {
         foreach (var blockCol in _blockColliders)
         {
-            int hitToDestruct = Random.Range(Min, Max);
+            int hitToDestruct = Random.Range(0, _settings.HitToDestructRange);
 
             BlockData blockData = new BlockData
             {
@@ -53,7 +54,7 @@ public class BlockService : IInitializable, IDisposable
 
             _blocks.Add(block);
 
-            Action cached = () => 
+            Action cached = () =>
                 OnBlockDestruct?.Invoke(_blockColliders.Count(x => x.gameObject.activeSelf));
 
             _cachedActions.Add(cached);
@@ -64,7 +65,7 @@ public class BlockService : IInitializable, IDisposable
 
     private Pool<Buff> GetRandomPoolBuff()
     {
-        int rand = Random.Range(Min, Max);
+        int rand = Random.Range(0, _settings.DropProbability);
         return rand >= _buffs.Count ? null : _buffs.ElementAt(rand);
     }
 
@@ -74,10 +75,10 @@ public class BlockService : IInitializable, IDisposable
         {
             _blocks[i].OnDestruct -= _cachedActions[i];
         }
-        
+
         _cachedActions.Clear();
         _blocks.Clear();
-        
+
         _disposables?.Dispose();
     }
 }

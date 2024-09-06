@@ -21,5 +21,10 @@ namespace Arkanoid.Settings
         [Header("Buffs")]
         [Range(0,30)]public float buffDuration = 5f;
         [Range(1,10)]public float coefficient = 2;
+        [Range(1,10)]public int DropProbability = 5;
+        
+        [Space(10)]
+        [Header("Block")]
+        [Range(0,30)]public int HitToDestructRange = 5;
     }
 }

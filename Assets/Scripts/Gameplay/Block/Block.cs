@@ -6,8 +6,7 @@ using UnityEngine;
 public class Block
 {
     private readonly Pool<Buff> _buff;
-    private readonly BlockView _blockView;
-    
+
     public event Action<int> OnHit;
     public event Action OnDestruct;
 
@@ -22,16 +21,17 @@ public class Block
         _buff = buff;
         _hitToDestruct = hitToDestruct;
 
-        _blockView = new BlockView(blockData.text);
+        BlockView blockView = new BlockView(blockData.text);
         
-        OnHit += _blockView.UpdateText;
+        OnHit += blockView.UpdateText;
 
         OnHit?.Invoke(hitToDestruct);
 
         blockData.Col.gameObject.OnEnableAsObservable().
-            Subscribe(_ => OnHit += _blockView.UpdateText).AddTo(disposables);
+            Subscribe(_ => OnHit += blockView.UpdateText).AddTo(disposables);
+        
         blockData.Col.gameObject.OnDestroyAsObservable().
-            Subscribe(_ => OnHit -= _blockView.UpdateText).AddTo(disposables);
+            Subscribe(_ => OnHit -= blockView.UpdateText).AddTo(disposables);
         
         SubsribeToCollsion(blockData.Col, disposables);
     }
@@ -41,7 +41,9 @@ public class Block
         block.OnCollisionEnterAsObservable().Subscribe(col =>
         {
             _hitToDestruct--;
+            
             OnHit?.Invoke(_hitToDestruct);
+            
             if (_hitToDestruct > 0)
                 return;
             

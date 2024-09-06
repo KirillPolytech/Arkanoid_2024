@@ -5,35 +5,30 @@ using Random = UnityEngine.Random;
 
 public class Ball : MonoBehaviour
 {
-    private const float BlindArea = 0.25f;
-    
+    private const float BlindArea = 0.5f;
+
     public Rigidbody Rb { get; private set; }
-    
+
     private Vector3 _lastVelocity;
     private Settings _settings;
     private bool _initialized;
-    
+
     [Inject]
     public void Construct(Settings settings)
     {
         _settings = settings;
-        
+
         Rb = GetComponent<Rigidbody>();
     }
-    
+
     private void FixedUpdate()
     {
         if (!_initialized)
             return;
-        
-        _lastVelocity = Rb.velocity;
 
-        float absY = Mathf.Abs(Rb.velocity.y); 
-        float absX = Mathf.Abs(Rb.velocity.x); 
-        if (absY < BlindArea || absX < BlindArea)
-            Rb.velocity += new Vector3(0, Random.Range(-1, 2) * 1/BlindArea, 0);
+        _lastVelocity = Rb.velocity;
     }
-    
+
     public void Initialize(Vector3 velocity, Vector3 pos)
     {
         Rb.position = pos;
@@ -58,8 +53,25 @@ public class Ball : MonoBehaviour
 
         if (rb)
             additionalDir = rb.velocity;
-        
+
         Rb.velocity = (reflect + additionalDir).normalized * _settings.BallStartForce;
+
+        CheckBlindDirection();
+    }
+
+    private void CheckBlindDirection()
+    {
+        float absY = Mathf.Abs(Rb.velocity.y);
+        float absX = Mathf.Abs(Rb.velocity.x);
+        if (absY < BlindArea || absX < BlindArea)
+        {
+            Rb.velocity += new Vector3(0, Random.Range(-1, 2) * 1 / BlindArea, 0);
+        }
+        
+        if (absX < BlindArea)
+        {
+            Rb.velocity += new Vector3(Random.Range(-1, 2) * 1 / BlindArea, 0, 0);
+        }
     }
 
     private void OnDisable()

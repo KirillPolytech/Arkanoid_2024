@@ -204,6 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbda2ad9c782cad4bbf2a41e8c81899f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 0}
   blockPrefab: {fileID: 2230678153484054397, guid: 79a96b9d53a54ad4e9318d681cb9d190, type: 3}
   blocks:
   - {fileID: 0}
@@ -328,9 +329,10 @@ MonoBehaviour:
   - {fileID: 0}
   platformRb: {fileID: 0}
   platformCollider: {fileID: 0}
-  divisionBallPrefab: {fileID: 5798158613166923158, guid: 4a7bd107d96bdcd42ba6db4d2f123dc5, type: 3}
-  reduceSizePrefab: {fileID: 4388231349433271516, guid: 14ae47d8c78afb3409eb247e8ff9645d, type: 3}
-  expandSizePrefab: {fileID: -4932526870359962434, guid: 698d99904c2a187409a22e775975285d, type: 3}
+  buffPrefabs:
+  - {fileID: 5798158613166923158, guid: 4a7bd107d96bdcd42ba6db4d2f123dc5, type: 3}
+  - {fileID: -4932526870359962434, guid: 698d99904c2a187409a22e775975285d, type: 3}
+  - {fileID: 4388231349433271516, guid: 14ae47d8c78afb3409eb247e8ff9645d, type: 3}
   ballPrefab: {fileID: 369615631, guid: 53fc5cd06be30cf4cac81bab9693efc5, type: 3}
   ballDefaultPos: {fileID: 1908876300}
   loseTrigger: {fileID: 0}
@@ -396,7 +398,7 @@ Camera:
   m_GameObject: {fileID: 4065186137150459084}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 4
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
