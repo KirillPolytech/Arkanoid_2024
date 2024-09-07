@@ -1,4 +1,5 @@
-# Arkanoid_2024
+# Astronoid
+
  Игра для codenrock. <br/>
  Использованные ассеты:  <br/> 
  2D Casual UI HD <br/>
