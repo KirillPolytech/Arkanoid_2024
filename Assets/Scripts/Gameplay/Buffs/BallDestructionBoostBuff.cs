@@ -1,21 +1,21 @@
 using System.Collections.Generic;
 using Arkanoid.Settings;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
 public class BallDestructionBoostBuff : Buff
 {
     private readonly BallPool _ballPool;
-    private readonly Settings _settings;
     
     [Inject]
     public BallDestructionBoostBuff(
         Collider buffCol, 
         BallPool ballPool,
-        Settings settings) : base(buffCol.gameObject)
+        Settings settings,
+        CompositeDisposable compositeDisposable) : base(buffCol.gameObject, compositeDisposable, settings)
     {
         _ballPool = ballPool;
-        _settings = settings;
     }
     
     public override void Execute()

@@ -50,8 +50,6 @@ public class BuffPool<T> : Pool<Collider> where T : Buff
             Subscribe(action.Invoke).
             AddTo(_compositeDisposable);
         
-        //col.OnCollisionStayAsObservable().Subscribe(action.Invoke).AddTo(_compositeDisposable);
-
         _pool.Add(obj.GetComponent<Collider>());
 
         obj.GameObject().SetActive(false);

@@ -17,7 +17,10 @@ public class BlockPlacer : MonoBehaviour
         int ind = 0;
         for (int i = 0; i < blockInRow; i++)
         {
-            for (int j = 0; j < blockInRow && ind < blocks.Length; j++)
+            if (ind > blocks.Length)
+                Debug.LogWarning("Ind out of range");
+            
+            for (int j = 0; j < blockInRow ; j++)
             {
                 blocks[ind++].transform.position =
                     new Vector3(start.position.x + offsetX * j, start.position.y + offsetY * i, 0);

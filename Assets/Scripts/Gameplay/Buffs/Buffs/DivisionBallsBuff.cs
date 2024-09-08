@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using Arkanoid.Settings;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class DivisionBallsBuff : Buff
 {
@@ -10,7 +13,8 @@ public class DivisionBallsBuff : Buff
     public DivisionBallsBuff(
         CompositeDisposable compositeDisposable,
         BallPool ballPool,
-        Collider buffCol) : base(buffCol.gameObject)
+        Collider buffCol,
+        Settings settings) : base(buffCol.gameObject, compositeDisposable, settings)
     {
         _ballPool = ballPool;
 

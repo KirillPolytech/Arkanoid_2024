@@ -1,20 +1,20 @@
 using Arkanoid.Settings;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
 public class ExpandSizeBuff : Buff
 {
     private readonly PlatformPresenter _platformPresenter;
-    private readonly Settings _settings;
 
     [Inject]
     public ExpandSizeBuff(
         Collider buffCol, 
         PlatformPresenter platformPresenter, 
-        Settings settings) : base(buffCol.gameObject)
+        Settings settings,
+        CompositeDisposable compositeDisposable) : base(buffCol.gameObject, compositeDisposable, settings)
     {
         _platformPresenter = platformPresenter;
-        _settings = settings;
     }
 
     public override void Execute()

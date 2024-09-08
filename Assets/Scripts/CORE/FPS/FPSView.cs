@@ -2,11 +2,11 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 
-public class FPS : ITickable
+public class FPSView: ITickable
 {
     private readonly TextMeshProUGUI _counter;
     
-    public FPS(TextMeshProUGUI counter)
+    public FPSView(TextMeshProUGUI counter)
     {
         _counter = counter;
     }

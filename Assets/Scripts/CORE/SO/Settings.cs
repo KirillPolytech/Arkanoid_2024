@@ -21,6 +21,7 @@ namespace Arkanoid.Settings
         [Range(0,30)]public float BuffDuration = 5f;
         [Range(1,10)]public float BuffCoeff = 2;
         [Range(4,100)]public int DropProbability = 5;
+        [Range(1,25)]public int DropVelocity = 5;
         
         [Space(10)]
         [Header("Block")]

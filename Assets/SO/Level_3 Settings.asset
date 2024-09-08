@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Level_3 Settings
   m_EditorClassIdentifier: 
   Health: 3
-  PlatformSpeed: 15
+  PlatformSpeed: 22.5
   BallStartForce: 15
-  StartRange: 3
-  buffDuration: 5
-  coefficient: 2
-  DropProbability: 10
+  BuffDuration: 5
+  BuffCoeff: 2
+  DropProbability: 4
   HitToDestructRange: 10
+  DamageBoost: 100
   HitSoundDelay: 0.05

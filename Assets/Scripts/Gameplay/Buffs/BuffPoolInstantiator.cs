@@ -73,7 +73,6 @@ public class BuffPoolInstantiator
                         DefaultAmount);
                     
                     _buffs.Add(boostBuff);
-                    
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

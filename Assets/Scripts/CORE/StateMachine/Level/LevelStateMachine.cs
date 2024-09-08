@@ -18,7 +18,6 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     [Inject]
     public LevelStateMachine(
-        PlatformPresenter platformPresenter,
         TimeFreezer timeFreezer,
         LevelWindowController levelWindowController,
         InputHandler inputHandler,
@@ -34,7 +33,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         _states.Add(new BeginState(levelWindowController, ballPool, settings, ballDefaultPos));
         _states.Add(new PauseState(timeFreezer, levelWindowController));
         _states.Add(new ContinueState(timeFreezer, levelWindowController));
-        _states.Add(new ResetState(ballPool, ballDefaultPos, levelWindowController, timeFreezer, platformPresenter));
+        _states.Add(new ResetState(ballPool, ballDefaultPos, levelWindowController, timeFreezer));
         _states.Add(new LoseState(timeFreezer, levelWindowController));
         _states.Add(new WinState(timeFreezer, levelWindowController));
 

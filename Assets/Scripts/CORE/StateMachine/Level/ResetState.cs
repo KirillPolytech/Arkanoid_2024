@@ -15,14 +15,12 @@ public class ResetState : State
         BallPool ballPool, 
         Transform ballDefaultPos, 
         WindowController windowController, 
-        TimeFreezer timeFreezer,
-        PlatformPresenter platformPresenter)
+        TimeFreezer timeFreezer)
     {
         _ballDefaultPos = ballDefaultPos;
         _ballPool = ballPool;
         _windowController = windowController;
         _timeFreezer = timeFreezer;
-        _platformPresenter = platformPresenter;
     }
     
     public override void EnterState()
@@ -31,7 +29,6 @@ public class ResetState : State
         _windowController.Open<GamePlayWindow>();
         _ballPool.Reset();
         _ball = _ballPool.Pop();
-        _platformPresenter.Reset();
         
         _ball.SetPosition(_ballDefaultPos.position);
     }

@@ -14,7 +14,7 @@ public class BallPool : IFixedTickable, IDisposable
 
     protected readonly List<Ball> _pool = new List<Ball>();
     protected readonly List<Ball> _active = new List<Ball>();
-    private readonly CompositeDisposable _disposables = new CompositeDisposable();
+    private readonly CompositeDisposable _disposables;
     private readonly Factory _factory;
     private readonly Rigidbody _prefab;
     private readonly Settings _settings;
@@ -26,12 +26,14 @@ public class BallPool : IFixedTickable, IDisposable
         Rigidbody prefab, 
         Factory factory, 
         Settings settings, 
-        HitSoundPlayer hitSound)
+        HitSoundPlayer hitSound,
+        CompositeDisposable disposables)
     {
         _factory = factory;
         _settings = settings;
         _prefab = prefab;
         _hitSound = hitSound;
+        _disposables = disposables;
         
         for (int i = 0; i < Limit; i++)
         {
@@ -50,7 +52,7 @@ public class BallPool : IFixedTickable, IDisposable
             return null;
 
         GameObject obj = _factory.CreateInstance(_prefab.gameObject);
-
+        
         Rigidbody rb = obj.GetComponent<Rigidbody>();
 
         object[] param = { _settings, rb, _disposables };
@@ -82,7 +84,7 @@ public class BallPool : IFixedTickable, IDisposable
 
     public void Push(GameObject ball)
     {
-        Ball firstOrDefault = _pool.FirstOrDefault(x => x.GameObject == ball);
+        Ball firstOrDefault = _active.FirstOrDefault(x => x.GameObject == ball);
         firstOrDefault?.GameObject.SetActive(false);
         
         _active.Remove(firstOrDefault);
@@ -96,6 +98,7 @@ public class BallPool : IFixedTickable, IDisposable
         {
             ball?.GameObject.SetActive(false);
         }
+        _active.Clear();
     }
 
     public void Dispose()

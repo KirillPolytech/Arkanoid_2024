@@ -1,22 +1,20 @@
 using Arkanoid.Settings;
 using UniRx;
-using UniRx.Triggers;
 using UnityEngine;
 using Zenject;
 
 public class ShrinkSizeBuff : Buff
 {
     private readonly PlatformPresenter _platformPresenter;
-    private readonly Settings _settings;
     
     [Inject]
     public ShrinkSizeBuff(
         Collider buffCol, 
         PlatformPresenter platformPresenter, 
-        Settings settings) : base(buffCol.gameObject)
+        Settings settings,
+        CompositeDisposable compositeDisposable) : base(buffCol.gameObject, compositeDisposable, settings)
     {
         _platformPresenter = platformPresenter;
-        _settings = settings;
     }
     
     public override void Execute()

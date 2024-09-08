@@ -897,6 +897,10 @@ PrefabInstance:
       value: LevelContext 2
       objectReference: {fileID: 0}
     - target: {fileID: 4021534064638195931, guid: f2e4a654541d9e54c8fbf77031c6b424, type: 3}
+      propertyPath: settings
+      value: 
+      objectReference: {fileID: 11400000, guid: 886fe255c1416ca4f854ced5f6b02936, type: 2}
+    - target: {fileID: 4021534064638195931, guid: f2e4a654541d9e54c8fbf77031c6b424, type: 3}
       propertyPath: blocks.Array.size
       value: 220
       objectReference: {fileID: 0}
