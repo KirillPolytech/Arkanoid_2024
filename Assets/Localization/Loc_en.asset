@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Loc_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: e9ab747015421964f92924d7663e19e3, type: 2}
+  m_Metadata:
+    m_Items:
+    - rid: 8891427464589082867
+  m_TableData:
+  - m_Id: 8268746752
+    m_Localized: Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 31194812416
+    m_Localized: Exit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 59435061248
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 128712380416
+    m_Localized: Health {0}
+    m_Metadata:
+      m_Items:
+      - rid: 8891427464589082867
+  - m_Id: 3688569180160
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3954752294912
+    m_Localized: 'Control:
+
+      A - move left
+
+      D - move right
+
+      space
+      - begin game'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6155704930304
+    m_Localized: Loading . . .
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6510517882880
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6583771402240
+    m_Localized: Exit to menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7155295653888
+    m_Localized: Next
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7855828307968
+    m_Localized: Restart
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 8891427464589082867
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0010dbf71d000000

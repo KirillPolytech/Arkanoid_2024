@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Zenject;
 using Arkanoid.Settings;
@@ -9,33 +10,36 @@ using Random = UnityEngine.Random;
 public class Ball
 {
     private const float BlindArea = 0.5f;
+    private const int DefaultDamage = 1;
 
     private readonly Settings _settings;
+    private readonly CompositeDisposable _disposables;
 
     public Action OnCollision;
+
+    public int Damage { get; private set; } = 1;
 
     public Rigidbody Rb { get; private set; }
     public GameObject GameObject { get; private set; }
     public Transform Transform { get; private set; }
-
+    
     private Vector3 _lastVelocity;
     private bool _initialized;
-
+    
     [Inject]
     public Ball(Settings settings, Rigidbody rb, CompositeDisposable disposables)
     {
         _settings = settings;
+        _disposables = disposables;
         Rb = rb;
         Transform = rb.transform;
         GameObject = rb.gameObject;
         Collider collider = rb.GetComponent<Collider>();
-
-
+        
         collider.OnCollisionEnterAsObservable().Subscribe(OnCollisionEnter).AddTo(disposables);
-
         collider.OnDisableAsObservable().Subscribe(_ => OnDisable()).AddTo(disposables);
     }
-    
+
     public void FixedTick()
     {
         if (!_initialized)
@@ -59,10 +63,25 @@ public class Ball
         Transform.position = pos;
     }
 
+    public void BoostDamage(int damage)
+    {
+        if (Damage == damage)
+            return;
+        
+        BoostingDamage(damage).ToObservable().Subscribe().AddTo(_disposables);
+    }
+
+    private IEnumerator BoostingDamage(int damage)
+    {
+        Damage = damage;
+        yield return new WaitForSeconds(_settings.BuffDuration);
+        Damage = DefaultDamage;
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         OnCollision?.Invoke();
-        
+
         Vector3 inDir = _lastVelocity;
         Vector3 reflect = Vector3.Reflect(inDir, other.contacts[0].normal);
 

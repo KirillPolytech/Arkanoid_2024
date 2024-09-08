@@ -19,4 +19,5 @@ MonoBehaviour:
   buffDuration: 5
   coefficient: 2
   DropProbability: 10
-  HitToDestructRange: 0
+  HitToDestructRange: 15
+  HitSoundDelay: 0.05

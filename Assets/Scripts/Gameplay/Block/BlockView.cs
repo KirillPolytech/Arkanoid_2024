@@ -21,8 +21,10 @@ public class BlockView
 
     private void UpdateMeshColor(int hits)
     {
-        float r = 1f / (hits + 1); 
-        float g = 1 - 1f / (hits + 1); 
-        _renderer.material.color = new Color(r, g, 1);
+        float r = 1 - 1f / (hits + 1);
+        float g = 1f / (hits + 1);
+        float b = 1 - hits / 30f;
+        
+        _renderer.material.color = new Color(r, g, b);
     }
 }

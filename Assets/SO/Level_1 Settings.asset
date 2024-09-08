@@ -17,7 +17,7 @@ MonoBehaviour:
   BallStartForce: 15
   StartRange: 3
   buffDuration: 5
-  coefficient: 2
-  DropProbability: 3
-  HitToDestructRange: 0
+  buffCoeff: 2
+  DropProbability: 4
+  HitToDestructRange: 1
   HitSoundDelay: 0.1

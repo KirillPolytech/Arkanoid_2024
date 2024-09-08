@@ -11,25 +11,25 @@ using Random = UnityEngine.Random;
 public class BlockService : IInitializable, IDisposable
 {
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
-    private readonly List<Pool<Buff>> _buffs = new List<Pool<Buff>>();
+    private readonly List<Pool<Collider>> _buffs = new List<Pool<Collider>>();
     private readonly List<Block> _blocks = new List<Block>();
     private readonly List<Action> _cachedActions = new List<Action>();
 
     public Action<int> OnBlockDestruct;
 
     private Collider[] _blockColliders;
-    private PlayerCamera _playerCamera;
     private Settings _settings;
+    private BallPool _ballPool;
 
     [Inject]
     public void Construct(
         BlockProvider blockProvider,
         BuffPoolsProvider buffPoolsProvider,
-        PlayerCamera playerCamera,
-        Settings settings)
+        Settings settings,
+        BallPool ballPool)
     {
-        _playerCamera = playerCamera;
         _settings = settings;
+        _ballPool = ballPool;
         _blockColliders = blockProvider.GetArray();
 
         _buffs.AddRange(buffPoolsProvider.GetArray());
@@ -39,19 +39,20 @@ public class BlockService : IInitializable, IDisposable
     {
         foreach (var blockCol in _blockColliders)
         {
-            int hitToDestruct = Random.Range(0, _settings.HitToDestructRange);
+            int hitToDestruct = Random.Range(1, _settings.HitToDestructRange);
 
             BlockData blockData = new BlockData
             {
                 Col = blockCol,
                 text = blockCol.gameObject.GetComponentInChildren<TextMeshProUGUI>(),
-                Canv = blockCol.gameObject.GetComponentInChildren<Canvas>(),
                 rend = blockCol.GetComponentInChildren<Renderer>()
             };
 
-            blockData.Canv.worldCamera = _playerCamera.Cam;
-
-            Block block = new Block(blockData, GetRandomPoolBuff(), hitToDestruct, _disposables);
+            Block block = new Block(blockData, 
+                GetRandomPoolBuff(), 
+                hitToDestruct, 
+                _disposables, 
+                _ballPool);
 
             _blocks.Add(block);
 
@@ -64,7 +65,7 @@ public class BlockService : IInitializable, IDisposable
         }
     }
 
-    private Pool<Buff> GetRandomPoolBuff()
+    private Pool<Collider> GetRandomPoolBuff()
     {
         int rand = Random.Range(0, _settings.DropProbability);
         return rand >= _buffs.Count ? null : _buffs.ElementAt(rand);

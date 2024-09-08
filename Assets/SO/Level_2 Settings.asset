@@ -20,3 +20,4 @@ MonoBehaviour:
   coefficient: 2
   DropProbability: 10
   HitToDestructRange: 5
+  HitSoundDelay: 0.05

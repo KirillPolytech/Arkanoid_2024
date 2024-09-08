@@ -1,19 +1,15 @@
-using Arkanoid;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class BuffPoolsProvider : IDataProvider<Pool<Buff>>
+public class BuffPoolsProvider : IDataProvider<Pool<Collider>>
 {
-    private const int DefaultAmount = 33;
-    private readonly Pool<Buff>[] _pools;
+    private readonly List<Pool<Collider>> _pools;
 
-    public BuffPoolsProvider(BuffPrefabProvider buffPrefabProvider, Factory factory)
+    public BuffPoolsProvider(
+        BuffPoolInstantiator buffPoolInstantiator)
     {
-        Buff[] arr = buffPrefabProvider.GetArray();
-        _pools = new Pool<Buff>[arr.Length];
-        for (int i = 0; i < arr.Length; i++)
-        {
-            _pools[i] = new Pool<Buff>(arr[i].gameObject, factory, DefaultAmount);
-        }
+        _pools = buffPoolInstantiator.GetPools();
     }
 
-    public Pool<Buff>[] GetArray() => _pools;
+    public Pool<Collider>[] GetArray() => _pools.ToArray();
 }

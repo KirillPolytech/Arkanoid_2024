@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine;
 using Zenject;
 using Arkanoid.Settings;
+using UniRx;
+using UnityEngine.Localization;
 
 public class LevelContext : MonoInstaller
 {
@@ -14,7 +16,7 @@ public class LevelContext : MonoInstaller
     [SerializeField] private Rigidbody platformRb;
     [SerializeField] private Collider platformCollider;
 
-    [Space(15)] [SerializeField] private Buff[] buffPrefabs;
+    [Space(15)] [SerializeField] private BuffData[] buffPrefabs;
 
     [Space(15)] [SerializeField] private Rigidbody ballPrefab;
     [SerializeField] private Transform ballDefaultPos;
@@ -30,8 +32,13 @@ public class LevelContext : MonoInstaller
     [Header("Sounds")]
     [Space(15)] [SerializeField] private AudioSource ballHitSound;
     
+    [Header("Localization")]
+    [Space(15)] [SerializeField] private LocalizedString localizedHealth;
+    
     public override void InstallBindings()
     {
+        Container.Bind<CompositeDisposable>().AsSingle();
+        
         Container.Bind<PlayerCamera>().AsSingle().WithArguments(cam);
 
         Container.Bind<Arkanoid.Factory>().AsSingle();
@@ -47,7 +54,7 @@ public class LevelContext : MonoInstaller
         BindPools();
         BindPlatform();
         BindHealth();
-
+        
         Container.Bind<LoseTrigger>().AsSingle().WithArguments(loseTrigger);
 
         Container.BindInterfacesAndSelfTo<LevelStateMachine>().AsSingle().WithArguments(ballDefaultPos);
@@ -57,7 +64,7 @@ public class LevelContext : MonoInstaller
 
     private void BindHealth()
     {
-        Container.Bind<HealthView>().AsSingle().WithArguments(healthText);
+        Container.Bind<HealthView>().AsSingle().WithArguments(healthText, localizedHealth);
         Container.Bind<Health>().AsSingle();
         Container.BindInterfacesAndSelfTo<HealthPresenter>().AsSingle();
     }
@@ -72,6 +79,7 @@ public class LevelContext : MonoInstaller
     {
         Container.Bind<BlockProvider>().AsSingle().WithArguments(blocks);
         Container.BindInstance(new BuffPrefabProvider(buffPrefabs)).AsSingle();
+        Container.Bind<BuffPoolInstantiator>().AsSingle();
         Container.Bind<BuffPoolsProvider>().AsSingle();
     }
 

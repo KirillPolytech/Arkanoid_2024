@@ -1,14 +1,14 @@
 using Zenject;
 
-public class BuffPrefabProvider : IDataProvider<Buff>
+public class BuffPrefabProvider : IDataProvider<BuffData>
 {
-    private readonly Buff[] _pools;
+    private readonly BuffData[] _buffs;
     
     [Inject]
-    public BuffPrefabProvider(Buff[] pools)
+    public BuffPrefabProvider(BuffData[] buffs)
     {
-        _pools = pools;
+        _buffs = buffs;
     }
 
-    public Buff[] GetArray() => _pools;
+    public BuffData[] GetArray() => _buffs;
 }

@@ -38,7 +38,7 @@ public class LoseTrigger : IDisposable
         OnBallEnter?.Invoke();
     }
 
-    private void HandleBuffCollision(IReadOnlyList<Pool<Buff>> buffPools, Collision collision)
+    private void HandleBuffCollision(IReadOnlyList<Pool<Collider>> buffPools, Collision collision)
     {
         buffPools[0].Push(collision.gameObject);
     }

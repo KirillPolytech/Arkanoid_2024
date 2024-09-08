@@ -13,6 +13,7 @@ public class BallPool : IFixedTickable, IDisposable
     protected const int Limit = 100;
 
     protected readonly List<Ball> _pool = new List<Ball>();
+    protected readonly List<Ball> _active = new List<Ball>();
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
     private readonly Factory _factory;
     private readonly Rigidbody _prefab;
@@ -73,6 +74,9 @@ public class BallPool : IFixedTickable, IDisposable
             return null;
 
         freeBall.GameObject.SetActive(true);
+        
+        _active.Add(freeBall);
+        
         return freeBall;
     }
 
@@ -80,9 +84,11 @@ public class BallPool : IFixedTickable, IDisposable
     {
         Ball firstOrDefault = _pool.FirstOrDefault(x => x.GameObject == ball);
         firstOrDefault?.GameObject.SetActive(false);
+        
+        _active.Remove(firstOrDefault);
     }
 
-    public Ball[] GetActive() => _pool.Where(x => x.GameObject.activeSelf).ToArray();
+    public List<Ball> GetActive() => _active;
 
     public void Reset()
     {

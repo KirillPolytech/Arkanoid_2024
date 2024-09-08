@@ -1,11 +1,13 @@
 using System;
+using System.Linq;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 
 public class Block
 {
-    private readonly Pool<Buff> _buff;
+    private readonly Pool<Collider> _buff;
+    private readonly BallPool _ballPool;
 
     public event Action<int> OnHit;
     public event Action OnDestruct;
@@ -14,15 +16,17 @@ public class Block
 
     public Block(
         BlockData blockData,
-        Pool<Buff> buff,
+        Pool<Collider> buff,
         int hitToDestruct,
-        CompositeDisposable disposables)
+        CompositeDisposable disposables,
+        BallPool ballPool)
     {
         _buff = buff;
         _hitToDestruct = hitToDestruct;
+        _ballPool = ballPool;
 
         BlockView blockView = new BlockView(blockData.rend, blockData.text);
-
+        
         OnHit += blockView.UpdateText;
 
         OnHit?.Invoke(hitToDestruct);
@@ -36,13 +40,15 @@ public class Block
 
     private void OnEnable(BlockData blockData, BlockView blockView, CompositeDisposable disposables)
     {
-        blockData.Col.gameObject.OnEnableAsObservable().Subscribe(_ => OnHit += blockView.UpdateText)
+        blockData.Col.gameObject.OnEnableAsObservable()
+            .Subscribe(_ => OnHit += blockView.UpdateText)
             .AddTo(disposables);
     }
 
     private void OnDestroy(BlockData blockData, BlockView blockView, CompositeDisposable disposables)
     {
-        blockData.Col.gameObject.OnDestroyAsObservable().Subscribe(_ => OnHit -= blockView.UpdateText)
+        blockData.Col.gameObject.OnDestroyAsObservable()
+            .Subscribe(_ => OnHit -= blockView.UpdateText)
             .AddTo(disposables);
     }
 
@@ -50,7 +56,10 @@ public class Block
     {
         block.OnCollisionEnterAsObservable().Subscribe(col =>
         {
-            _hitToDestruct--;
+            GameObject gameObject = col.gameObject;
+            var ball = _ballPool.GetActive().ElementAt(0);
+
+            _hitToDestruct = Mathf.Clamp(_hitToDestruct - ball.Damage, 0 , int.MaxValue);
 
             OnHit?.Invoke(_hitToDestruct);
 

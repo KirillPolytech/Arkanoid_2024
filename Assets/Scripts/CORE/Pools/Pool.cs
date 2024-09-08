@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Arkanoid;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -10,24 +9,22 @@ public class Pool<T> where T : Component
     protected const int DefaultAmount = 10;
     protected const int Limit = 100;
 
-    private readonly Factory _factory;
+    protected readonly Factory _factory;
     protected readonly List<T> _pool = new List<T>();
+    protected readonly List<T> _active = new List<T>();
 
-    private readonly GameObject _prefab;
+    protected readonly GameObject _prefab;
 
-    public Pool(GameObject prefab, Factory factory, [DefaultParameterValue(DefaultAmount)][Optional] int amount)
+    public Pool(
+        GameObject prefab, 
+        Factory factory)
     {
         _factory = factory;
 
         _prefab = prefab;
-
-        for (int i = 0; i < amount; i++)
-        {
-            Instantiate();
-        }
     }
 
-    private T Instantiate()
+    protected T Instantiate()
     {
         if (_pool.Count >= Limit)
             return null;
@@ -54,15 +51,17 @@ public class Pool<T> where T : Component
             return null;
 
         freeGameObject.GameObject().SetActive(true);
+        _active.Add(freeGameObject);
         return freeGameObject;
     }
 
     public void Push(GameObject obj)
     {
         obj.GameObject().SetActive(false);
+        _active.Remove(obj as T);
     }
 
-    public T[] GetActive() => _pool.Where(x => x.GameObject().activeSelf).ToArray();
+    public List<T> GetActive() => _active;
 
     public void Reset()
     {

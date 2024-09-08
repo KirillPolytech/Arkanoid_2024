@@ -111,7 +111,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     private void HandleBallCount()
     {
-        if (_ballPool.GetActive().Length > 0)
+        if (_ballPool.GetActive().Count > 0)
             return;
 
         SetState<ResetState>();

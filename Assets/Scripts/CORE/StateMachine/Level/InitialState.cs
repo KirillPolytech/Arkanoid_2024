@@ -30,7 +30,7 @@ public class InitialState : State
     
     public override void EnterState()
     {
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Locked;
         
         _timeFreezer.UnFreeze();
         _windowController.Open<GamePlayWindow>();

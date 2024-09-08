@@ -516,10 +516,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1460205517353177048, guid: e52ed4a757100594494275ade778ac08, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1460205517353177048, guid: e52ed4a757100594494275ade778ac08, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
@@ -590,10 +586,6 @@ PrefabInstance:
     - target: {fileID: 1460205517353177048, guid: e52ed4a757100594494275ade778ac08, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8441279131620596721, guid: e52ed4a757100594494275ade778ac08, type: 3}
-      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
-      value: 1801810542
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

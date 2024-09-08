@@ -6,6 +6,8 @@ namespace Arkanoid
 {
     public class Factory
     {
+        private const string ParentName = "Parent";
+
         private readonly IInstantiator _instantiator;
         private readonly GameObject _parent;
 
@@ -14,7 +16,7 @@ namespace Arkanoid
         {
             _instantiator = instantiator;
 
-            _parent = new GameObject("Parent");
+            _parent = new GameObject(ParentName);
         }
 
         public GameObject CreateInstance(GameObject prefab)

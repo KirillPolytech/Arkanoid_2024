@@ -5,15 +5,13 @@ using UnityEngine;
 using Zenject;
 using Arkanoid.Settings;
 using UniRx;
-using UniRx.Triggers;
 
 public class PlatformPresenter : IDisposable
 {
-    private readonly CompositeDisposable _disposables = new CompositeDisposable();
-
     private PlatformModel _platformModel;
     private InputHandler _inputHandler;
     private Settings _settings;
+    private CompositeDisposable _compositeDisposable;
 
     private Action<InputData> _cachedAddForce;
 
@@ -26,28 +24,21 @@ public class PlatformPresenter : IDisposable
         Collider col,
         InputHandler inputHandler,
         PlatformModel platformModel,
-        Settings settings)
+        Settings settings,
+        CompositeDisposable compositeDisposable)
     {
         _platformModel = platformModel;
         _inputHandler = inputHandler;
         _settings = settings;
         _collider = col;
+        _compositeDisposable = compositeDisposable;
 
-        _cachedAddForce = x => _platformModel.AddForce(x.HorizontalInputValue * _settings.PlatformSpeed);
-
-        _collider.OnCollisionEnterAsObservable().Subscribe(HandleCollision).AddTo(_disposables);
-
+        _cachedAddForce = x => 
+            _platformModel.AddForce(x.HorizontalInputValue * _settings.PlatformSpeed);
+        
         _inputHandler.OnInputDataUpdateFixed += _cachedAddForce;
 
         _initalPosition = _collider.transform.position;
-    }
-
-    private void HandleCollision(Collision collision)
-    {
-        if (!collision.gameObject.CompareTag(TagStorage.BuffTag))
-            return;
-        
-        collision.gameObject.GetComponent<Buff>().Execute();
     }
 
     public void Resize(float koeff, float duration)
@@ -55,7 +46,7 @@ public class PlatformPresenter : IDisposable
         if (_collider.transform.localScale != Vector3.one)
             return;
         
-        Resizing(koeff, duration).ToObservable().Subscribe().AddTo(_disposables);
+        Resizing(koeff, duration).ToObservable().Subscribe().AddTo(_compositeDisposable);
     }
 
     private IEnumerator Resizing(float koeff, float duration)
@@ -73,7 +64,5 @@ public class PlatformPresenter : IDisposable
     public void Dispose()
     {
         _inputHandler.OnInputDataUpdate -= _cachedAddForce;
-
-        _disposables.Clear();
     }
 }

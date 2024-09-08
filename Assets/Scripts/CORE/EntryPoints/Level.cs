@@ -28,7 +28,7 @@ public class Level : MonoBehaviour
         _cached = () => sceneLoader.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
 
         nextButton.onClick.AddListener(_cached.Invoke);
-        continueButton.onClick.AddListener(_levelStateMachine.SetState<BeginState>);
+        continueButton.onClick.AddListener(_levelStateMachine.SetState<ContinueState>);
         restartButton.onClick.AddListener(_levelStateMachine.SetState<InitialState>);
 
         foreach (var button in exitButton)
