@@ -1,6 +1,5 @@
-
 public static class TagStorage
 {
-    public static string BallTag = "Ball";
-    public static string BuffTag = "Buff";
+    public const string BallTag = "Ball";
+    public const string BuffTag = "Buff";
 }

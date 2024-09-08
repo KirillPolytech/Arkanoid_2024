@@ -26,7 +26,10 @@ public class LevelContext : MonoInstaller
     [Space(15)] [SerializeField] private LevelWindowController levelWindowController;
 
     [Space(15)] [SerializeField] private Settings settings;
-
+    
+    [Header("Sounds")]
+    [Space(15)] [SerializeField] private AudioSource ballHitSound;
+    
     public override void InstallBindings()
     {
         Container.Bind<PlayerCamera>().AsSingle().WithArguments(cam);
@@ -37,6 +40,8 @@ public class LevelContext : MonoInstaller
         Container.BindInterfacesAndSelfTo<InputHandler>().AsSingle();
         Container.Bind<TimeFreezer>().AsSingle();
         Container.BindInstance(levelWindowController).AsSingle();
+        
+        Container.BindInterfacesAndSelfTo<HitSoundPlayer>().AsSingle().WithArguments(ballHitSound);
 
         BindProviders();
         BindPools();

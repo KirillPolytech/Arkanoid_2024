@@ -1,12 +1,14 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using Zenject;
 
 public class BootContext : MonoInstaller
 {
-    [SerializeField] private SceneLoader sceneLoader;
-    [SerializeField] private AudioMixer audioMixer;
-    [SerializeField] private MusicPlayer musicPlayer;
+    [Space(15)][SerializeField] private SceneLoader sceneLoader;
+    [Space(15)][SerializeField] private AudioMixer audioMixer;
+    [Space(15)][SerializeField] private MusicPlayer musicPlayer;
+    [Space(15)] [SerializeField] private TextMeshProUGUI fpsCounter;
     
     public override void InstallBindings()
     {
@@ -17,5 +19,7 @@ public class BootContext : MonoInstaller
         Container.BindInstance(musicPlayer).AsSingle();
 
         Container.BindInterfacesAndSelfTo<GameStateMachine>().AsSingle().NonLazy();
+        
+        Container.BindInterfacesAndSelfTo<FPS>().AsSingle().WithArguments(fpsCounter);
     }
 }

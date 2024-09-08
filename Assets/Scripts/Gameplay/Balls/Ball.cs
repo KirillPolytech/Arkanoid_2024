@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using Zenject;
 using Arkanoid.Settings;
@@ -10,7 +11,8 @@ public class Ball
     private const float BlindArea = 0.5f;
 
     private readonly Settings _settings;
-    private Collider _collider;
+
+    public Action OnCollision;
 
     public Rigidbody Rb { get; private set; }
     public GameObject GameObject { get; private set; }
@@ -26,12 +28,12 @@ public class Ball
         Rb = rb;
         Transform = rb.transform;
         GameObject = rb.gameObject;
-        _collider = rb.GetComponent<Collider>();
+        Collider collider = rb.GetComponent<Collider>();
 
 
-        _collider.OnCollisionEnterAsObservable().Subscribe(OnCollisionEnter).AddTo(disposables);
+        collider.OnCollisionEnterAsObservable().Subscribe(OnCollisionEnter).AddTo(disposables);
 
-        _collider.OnDisableAsObservable().Subscribe(_ => OnDisable()).AddTo(disposables);
+        collider.OnDisableAsObservable().Subscribe(_ => OnDisable()).AddTo(disposables);
     }
     
     public void FixedTick()
@@ -40,6 +42,8 @@ public class Ball
             return;
 
         _lastVelocity = Rb.velocity;
+
+        Rb.velocity = Rb.velocity.normalized * _settings.BallStartForce;
     }
 
     public void Initialize(Vector3 velocity, Vector3 pos)
@@ -57,6 +61,8 @@ public class Ball
 
     private void OnCollisionEnter(Collision other)
     {
+        OnCollision?.Invoke();
+        
         Vector3 inDir = _lastVelocity;
         Vector3 reflect = Vector3.Reflect(inDir, other.contacts[0].normal);
 

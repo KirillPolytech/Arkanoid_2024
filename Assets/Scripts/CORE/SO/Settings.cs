@@ -26,5 +26,9 @@ namespace Arkanoid.Settings
         [Space(10)]
         [Header("Block")]
         [Range(0,30)]public int HitToDestructRange = 5;
+        
+        [Space(10)]
+        [Header("Sound")]
+        [Range(0,30)]public float HitSoundDelay = 0.05f;
     }
 }

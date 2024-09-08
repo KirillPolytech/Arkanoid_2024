@@ -9,16 +9,16 @@ public class Level : MonoBehaviour
     [SerializeField] private Button nextButton;
     [SerializeField] private Button continueButton;
     [SerializeField] private Button[] exitButton;
-    
+
     [SerializeField] private Button restartButton;
 
     private SceneLoader _sceneLoader;
     private LevelStateMachine _levelStateMachine;
-    private Action _cached ;
-    
+    private Action _cached;
+
     [Inject]
     public void Construct(
-        SceneLoader sceneLoader, 
+        SceneLoader sceneLoader,
         LevelStateMachine levelStateMachine,
         LoseTrigger loseTrigger)
     {
@@ -26,7 +26,7 @@ public class Level : MonoBehaviour
         _levelStateMachine = levelStateMachine;
 
         _cached = () => sceneLoader.LoadLevel(SceneManager.GetActiveScene().buildIndex + 1);
-        
+
         nextButton.onClick.AddListener(_cached.Invoke);
         continueButton.onClick.AddListener(_levelStateMachine.SetState<BeginState>);
         restartButton.onClick.AddListener(_levelStateMachine.SetState<InitialState>);
@@ -43,7 +43,7 @@ public class Level : MonoBehaviour
         nextButton.onClick.RemoveListener(_cached.Invoke);
         continueButton.onClick.RemoveListener(_levelStateMachine.SetState<BeginState>);
         restartButton.onClick.RemoveListener(_levelStateMachine.SetState<InitialState>);
-        
+
         foreach (var button in exitButton)
         {
             button.onClick.RemoveListener(_levelStateMachine.SetState<BeginState>);

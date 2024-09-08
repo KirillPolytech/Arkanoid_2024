@@ -4,16 +4,25 @@ using UnityEngine;
 public class BlockView
 {
     private readonly TextMeshProUGUI _text;
+    private readonly Renderer _renderer;
 
-    public BlockView(TextMeshProUGUI text)
+    public BlockView(Renderer renderer, TextMeshProUGUI text)
     {
         _text = text;
+        _renderer = renderer;
     }
 
     public void UpdateText(int hits)
     {
-        float value = 1f / (hits + 1) + 0.2f;
-        _text.color = new Color(value, value, 1);
         _text.text = hits.ToString();
+
+        UpdateMeshColor(hits);
+    }
+
+    private void UpdateMeshColor(int hits)
+    {
+        float r = 1f / (hits + 1); 
+        float g = 1 - 1f / (hits + 1); 
+        _renderer.material.color = new Color(r, g, 1);
     }
 }

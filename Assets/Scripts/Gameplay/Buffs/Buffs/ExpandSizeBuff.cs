@@ -1,7 +1,7 @@
 using Arkanoid.Settings;
 using Zenject;
 
-public class SizeBuff : Buff
+public class ExpandSizeBuff : Buff
 {
     private PlatformPresenter _platformPresenter;
     private Settings _settings;

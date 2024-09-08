@@ -45,7 +45,8 @@ public class BlockService : IInitializable, IDisposable
             {
                 Col = blockCol,
                 text = blockCol.gameObject.GetComponentInChildren<TextMeshProUGUI>(),
-                Canv = blockCol.gameObject.GetComponentInChildren<Canvas>()
+                Canv = blockCol.gameObject.GetComponentInChildren<Canvas>(),
+                rend = blockCol.GetComponentInChildren<Renderer>()
             };
 
             blockData.Canv.worldCamera = _playerCamera.Cam;

@@ -12,20 +12,26 @@ public class BallPool : IFixedTickable, IDisposable
 {
     protected const int Limit = 100;
 
+    protected readonly List<Ball> _pool = new List<Ball>();
     private readonly CompositeDisposable _disposables = new CompositeDisposable();
     private readonly Factory _factory;
-    protected readonly List<Ball> _pool = new List<Ball>();
     private readonly Rigidbody _prefab;
     private readonly Settings _settings;
+    private readonly HitSoundPlayer _hitSound;
 
     private event Action FixedUpdate;
 
-    public BallPool(Rigidbody prefab, Factory factory, Settings settings)
+    public BallPool(
+        Rigidbody prefab, 
+        Factory factory, 
+        Settings settings, 
+        HitSoundPlayer hitSound)
     {
         _factory = factory;
         _settings = settings;
         _prefab = prefab;
-
+        _hitSound = hitSound;
+        
         for (int i = 0; i < Limit; i++)
         {
             Instantiate();
@@ -50,6 +56,7 @@ public class BallPool : IFixedTickable, IDisposable
         Ball ball = _factory.CreateInstance<Ball>(param);
 
         FixedUpdate += ball.FixedTick;
+        ball.OnCollision += _hitSound.Play;
 
         _pool.Add(ball);
 
@@ -87,11 +94,12 @@ public class BallPool : IFixedTickable, IDisposable
 
     public void Dispose()
     {
-        _disposables?.Dispose();
+        _disposables?.Clear();
 
         foreach (var ball in _pool)
         {
             FixedUpdate -= ball.FixedTick;
+            ball.OnCollision -= _hitSound.Play;
         }
     }
 }

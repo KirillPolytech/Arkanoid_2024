@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using Zenject;
 
-public class FPS : MonoBehaviour
+public class FPS : ITickable
 {
-    // Start is called before the first frame update
-    void Start()
+    private readonly TextMeshProUGUI _counter;
+    
+    public FPS(TextMeshProUGUI counter)
     {
-        
+        _counter = counter;
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public void Tick()
     {
-        
+        _counter.text = $"FPS: {(int)(1 / Time.deltaTime)}";
     }
 }
