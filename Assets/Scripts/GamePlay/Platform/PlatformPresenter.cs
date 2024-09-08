@@ -16,6 +16,7 @@ public class PlatformPresenter : IDisposable
     private Action<InputData> _cachedAddForce;
 
     private Collider _collider;
+    private Transform _transform;
 
     private Vector3 _initalPosition;
 
@@ -31,6 +32,7 @@ public class PlatformPresenter : IDisposable
         _inputHandler = inputHandler;
         _settings = settings;
         _collider = col;
+        _transform = col.transform;
         _compositeDisposable = compositeDisposable;
 
         _cachedAddForce = x => 
@@ -51,7 +53,9 @@ public class PlatformPresenter : IDisposable
 
     private IEnumerator Resizing(float koeff, float duration)
     {
-        _collider.transform.localScale /= koeff;
+        _transform.localScale =
+            new Vector3(_transform.localScale.x / koeff, _transform.localScale.y, _transform.localScale.z);
+        
         yield return new WaitForSeconds(duration);
         _collider.transform.localScale = Vector3.one;
     }

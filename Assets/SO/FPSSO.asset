@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 500d6047a86217b418b232cfee094a7e, type: 3}
   m_Name: FPSSO
   m_EditorClassIdentifier: 
-  TargetFPS: 15
+  TargetFPS: 60

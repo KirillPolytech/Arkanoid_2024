@@ -63,10 +63,5 @@ public class BlockPlacer : MonoBehaviour
                     new Vector3(start.position.x + offsetX * j, start.position.y + offsetY * i, 0);
             }
         }
-
-        for (int i = ind; i < blocks.Length; i++)
-        {
-            blocks[i].gameObject.SetActive(false);
-        }
     }
 }
