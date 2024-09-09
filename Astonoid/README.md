@@ -1,6 +1,6 @@
 # Astronoid
 
- Игра для codenrock. <br/>
+ Игра для хакатона СИНЕУС 2024. <br/>
  Использованные ассеты:  <br/> 
  2D Casual UI HD <br/>
  Simple UI Elements  <br/>
