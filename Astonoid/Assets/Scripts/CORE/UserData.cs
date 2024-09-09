@@ -23,26 +23,43 @@ public class UserData
 
     public void ChangeLevelData(int ind, LevelData levelData)
     {
-        if (LevelsData[ind].IsCompleted)
-            return;
-        
         if (ind < 0 || ind > LevelsData.Length)
             throw new IndexOutOfRangeException();
 
+        if (LevelsData[ind].Equals(default(LevelData)))
+        {
+            LevelsData[ind] = levelData;
+            return;
+        }
+        
+        if (LevelsData[ind].TimeData.time < levelData.TimeData.time)
+            return;
+        
         LevelsData[ind] = levelData;
     }
 }
 
 public struct LevelData
 {
-    public float Min, Sec, MilSec;
-    public bool IsCompleted;
+    public TimeData TimeData;
 
-    public LevelData(float min, float sec, float milSec, bool isCompleted)
+    public LevelData(TimeData data)
+    {
+        TimeData = data;
+    }
+}
+
+public struct TimeData
+{
+    public float Min, Sec, MilSec;
+    public float time;
+
+    public TimeData(float min, float sec, float milSec)
     {
         Min = min;
         Sec = sec;
         MilSec = milSec;
-        IsCompleted = isCompleted;
+
+        time = MilSec + (Sec + Min * 60) * 1000;
     }
 }

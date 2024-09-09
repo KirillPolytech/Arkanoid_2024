@@ -73,7 +73,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     private void BeginGame(InputData inputData)
     {
-       // if (Input.GetKeyDown(KeyCode.Alpha1))
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
             //SetState<WinState>();
         
         if (!inputData.IsStartGameButtonPressed)

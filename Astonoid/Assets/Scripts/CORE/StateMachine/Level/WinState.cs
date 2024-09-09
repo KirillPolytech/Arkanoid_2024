@@ -35,8 +35,8 @@ public class WinState : State
             }
         }
 
-        _userData.ChangeLevelData(ind,
-            new LevelData(_levelTimer.Min, _levelTimer.Sec, _levelTimer.MiliSec, true));
+        TimeData timeData = new TimeData(_levelTimer.Min, _levelTimer.Sec, _levelTimer.MiliSec);
+        _userData.ChangeLevelData(ind, new LevelData(timeData));
     }
 
     public override void ExitState()

@@ -52,11 +52,11 @@ public class MenuEntryPoint : MonoBehaviour
 
         for (int i = 0; i < levels.Length; i++)
         {
-            if (!temp.ElementAt(i).IsCompleted) 
+            if (temp.ElementAt(i).Equals(default(LevelData))) 
                 continue;
             
             levels[i].color = Color.yellow;
-            times[i].text = $"{temp[i].Min:00}:{temp[i].Sec:00}:{temp[i].MilSec:000}";
+            times[i].text = $"{temp[i].TimeData.Min:00}:{temp[i].TimeData.Sec:00}:{temp[i].TimeData.MilSec:000}";
         }
         
         for (int i = 0; i < startButton.Length; i++)
