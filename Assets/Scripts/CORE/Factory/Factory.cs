@@ -25,10 +25,17 @@ namespace Arkanoid
             temp.transform.SetParent(_parent.transform);
             return temp;
         }
-        
+
         public T CreateInstance<T>(IEnumerable<object> param)
         {
             return _instantiator.Instantiate<T>(param);
+        }
+
+        public T CreateInstance<T>()
+        {
+            T t = _instantiator.Instantiate<T>();
+
+            return _instantiator.Instantiate<T>();
         }
     }
 }

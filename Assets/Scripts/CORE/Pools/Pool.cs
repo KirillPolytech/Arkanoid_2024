@@ -12,7 +12,6 @@ public class Pool<T> where T : Component
     protected readonly Factory _factory;
     protected readonly List<T> _pool = new List<T>();
     protected readonly List<T> _active = new List<T>();
-
     protected readonly GameObject _prefab;
 
     public Pool(
@@ -20,7 +19,6 @@ public class Pool<T> where T : Component
         Factory factory)
     {
         _factory = factory;
-
         _prefab = prefab;
     }
 
@@ -36,7 +34,7 @@ public class Pool<T> where T : Component
         _pool.Add(obj.GetComponent<T>());
 
         obj.GameObject().SetActive(false);
-
+        
         return t;
     }
 

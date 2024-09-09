@@ -8,7 +8,7 @@ using Zenject;
 
 public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 {
-    private readonly InputHandler _inputHandler;
+    private readonly InputTypeController _inputTypeController;
     private readonly LoseTrigger _loseTrigger;
     private readonly HealthPresenter _healthPresenter;
     private readonly BallPool _ballPool;
@@ -20,7 +20,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
     public LevelStateMachine(
         TimeFreezer timeFreezer,
         LevelWindowController levelWindowController,
-        InputHandler inputHandler,
+        InputTypeController inputTypeController,
         Settings settings,
         LoseTrigger loseTrigger,
         HealthPresenter healthPresenter,
@@ -37,14 +37,14 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         _states.Add(new LoseState(timeFreezer, levelWindowController));
         _states.Add(new WinState(timeFreezer, levelWindowController));
 
-        _inputHandler = inputHandler;
+        _inputTypeController = inputTypeController;
         _healthPresenter = healthPresenter;
         _loseTrigger = loseTrigger;
         _ballPool = ballPool;
         _blockService = blockService;
 
-        _inputHandler.OnInputDataUpdate += HandlePauseWindow;
-        _inputHandler.OnInputDataUpdate += BeginGame;
+        _inputTypeController.CurrentInputHandler.OnInputDataUpdate += HandlePauseWindow;
+        _inputTypeController.CurrentInputHandler.OnInputDataUpdate += BeginGame;
         _healthPresenter.OnHealthLose += HandleHealthCount;
         _loseTrigger.OnBallEnter += HandleBallCount;
         _blockService.OnBlockDestruct += HandleActiveBlockCount;
@@ -71,7 +71,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     private void BeginGame(InputData inputData)
     {
-        if (!inputData.IsSpacePressed)
+        if (!inputData.IsStartGameButtonPressed)
             return;
 
         if (CurrentState.GetType() != typeof(InitialState) 
@@ -127,9 +127,9 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     public void Dispose()
     {
-        _inputHandler.OnInputDataUpdate -= HandlePauseWindow;
+        _inputTypeController.CurrentInputHandler.OnInputDataUpdate -= HandlePauseWindow;
+        _inputTypeController.CurrentInputHandler.OnInputDataUpdate -= BeginGame;
         _healthPresenter.OnHealthLose -= HandleHealthCount;
-        _inputHandler.OnInputDataUpdate -= BeginGame;
         _loseTrigger.OnBallEnter -= _healthPresenter.LoseHealth;
         _blockService.OnBlockDestruct -= HandleActiveBlockCount;
     }

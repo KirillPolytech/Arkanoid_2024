@@ -71,6 +71,26 @@ MonoBehaviour:
     m_Localized: Restart
     m_Metadata:
       m_Items: []
+  - m_Id: 292803969748992
+    m_Localized: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 292829244624896
+    m_Localized: Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 293162041675776
+    m_Localized: Mouse sensivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 293961052393472
+    m_Localized: 'Control:
+
+      Mouse movement - movement
+
+      LMB - begin game'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

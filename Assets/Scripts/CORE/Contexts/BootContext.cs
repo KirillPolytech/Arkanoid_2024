@@ -13,6 +13,9 @@ public class BootContext : MonoInstaller
 
     public override void InstallBindings()
     {
+        Container.Bind<UserData>().AsSingle();
+        Container.Bind<MouseSensivity>().AsSingle();
+        
         Container.BindInstance(sceneLoader).AsSingle();
 
         Container.BindInterfacesAndSelfTo<VolumeSettings>().AsSingle().WithArguments(audioMixer);

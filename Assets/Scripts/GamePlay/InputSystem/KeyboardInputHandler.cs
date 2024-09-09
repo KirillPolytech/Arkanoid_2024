@@ -4,20 +4,24 @@ using Zenject;
 
 namespace Arkanoid.InputSystem
 {
-    public class InputHandler : ITickable, IFixedTickable
+    public class KeyboardInputHandler : IInputHandler, ITickable, IFixedTickable
     {
-        public Action<InputData> OnInputDataUpdate;
-        public Action<InputData> OnInputDataUpdateFixed;
+        public Action<InputData> OnInputDataUpdate { get; set; }
+        public Action<InputData> OnInputDataUpdateFixed { get; set; }
 
         private InputData _inputData;
 
-        public void Tick()
+        public void HandleInput()
         {
             _inputData.HorizontalInputValue = Input.GetAxisRaw(GlobalVariables.HorizontalInput);
             _inputData.EscapePressed = Input.GetKeyDown(GlobalVariables.Escape);
-            _inputData.IsLMBPressed = Input.GetMouseButtonDown(GlobalVariables.LMB);
-            _inputData.IsSpacePressed = Input.GetKeyDown(GlobalVariables.Space);
+            _inputData.IsStartGameButtonPressed = Input.GetKeyDown(GlobalVariables.Space);
+        }
 
+        public void Tick()
+        { 
+            HandleInput();
+            
             OnInputDataUpdate?.Invoke(_inputData);
         }
 

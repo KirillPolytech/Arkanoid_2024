@@ -32,14 +32,12 @@ public class InitialState : State
     {
         Cursor.lockState = CursorLockMode.Locked;
         
+        _ballPool.Reset();
+        _ball = _ballPool.Pop(_ballDefaultPos.position);
         _timeFreezer.UnFreeze();
         _windowController.Open<GamePlayWindow>();
         _blockPool.ActivateAll();
-        _ballPool.Reset();
-        _ball = _ballPool.Pop();
         _healthPresenter.Reset();
-        
-        _ball.SetPosition(_ballDefaultPos.position);
     }
 
     public override void ExitState()

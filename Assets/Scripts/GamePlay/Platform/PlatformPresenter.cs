@@ -9,7 +9,7 @@ using UniRx;
 public class PlatformPresenter : IDisposable
 {
     private PlatformModel _platformModel;
-    private InputHandler _inputHandler;
+    private InputTypeController _keyboardInputHandler;
     private Settings _settings;
     private CompositeDisposable _compositeDisposable;
 
@@ -23,13 +23,13 @@ public class PlatformPresenter : IDisposable
     [Inject]
     public void Construct(
         Collider col,
-        InputHandler inputHandler,
+        InputTypeController keyboardInputHandler,
         PlatformModel platformModel,
         Settings settings,
         CompositeDisposable compositeDisposable)
     {
         _platformModel = platformModel;
-        _inputHandler = inputHandler;
+        _keyboardInputHandler = keyboardInputHandler;
         _settings = settings;
         _collider = col;
         _transform = col.transform;
@@ -38,7 +38,7 @@ public class PlatformPresenter : IDisposable
         _cachedAddForce = x => 
             _platformModel.AddForce(x.HorizontalInputValue * _settings.PlatformSpeed);
         
-        _inputHandler.OnInputDataUpdateFixed += _cachedAddForce;
+        _keyboardInputHandler.CurrentInputHandler.OnInputDataUpdateFixed += _cachedAddForce;
 
         _initalPosition = _collider.transform.position;
     }
@@ -67,6 +67,6 @@ public class PlatformPresenter : IDisposable
 
     public void Dispose()
     {
-        _inputHandler.OnInputDataUpdate -= _cachedAddForce;
+        _keyboardInputHandler.CurrentInputHandler.OnInputDataUpdate -= _cachedAddForce;
     }
 }

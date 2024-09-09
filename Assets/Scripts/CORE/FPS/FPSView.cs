@@ -1,8 +1,6 @@
 using TMPro;
-using UnityEngine;
-using Zenject;
 
-public class FPSView: ITickable
+public class FPSView
 {
     private readonly TextMeshProUGUI _counter;
     
@@ -10,9 +8,9 @@ public class FPSView: ITickable
     {
         _counter = counter;
     }
-    
-    public void Tick()
+
+    public void UpdateFPSValue(float value)
     {
-        _counter.text = $"FPS: {(int)(1 / Time.deltaTime)}";
+        _counter.text = $"FPS: {value}";
     }
 }

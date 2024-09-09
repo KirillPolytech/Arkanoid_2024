@@ -40,12 +40,13 @@ public class DivisionBallsBuff : Buff
 
         for (int i = 0; i < count; i++)
         {
-            Ball temp = _ballPool.Pop();
+            Vector3 pos = balls[i].Rb.position;
+
+            Ball temp = _ballPool.Pop(pos);
 
             if (temp == null)
                 break;
 
-            Vector3 pos = balls[i].Rb.position;
             Vector3 velocity = 
                 (Vector3.up * Random.Range(-1, 2f) + Vector3.right * Random.Range(-1, 2f)).normalized *
                     balls[i].Rb.velocity.magnitude;

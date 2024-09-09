@@ -44,7 +44,9 @@ public class LevelContext : MonoInstaller
         Container.Bind<Arkanoid.Factory>().AsSingle();
 
         Container.BindInstance(settings).AsSingle();
-        Container.BindInterfacesAndSelfTo<InputHandler>().AsSingle();
+
+        BindInput();
+        
         Container.Bind<TimeFreezer>().AsSingle();
         Container.BindInstance(levelWindowController).AsSingle();
         
@@ -87,5 +89,12 @@ public class LevelContext : MonoInstaller
     {
         Container.BindInterfacesAndSelfTo<BallPool>().AsSingle().WithArguments(ballPrefab);
         Container.Bind<BlockPool>().AsSingle().WithArguments(blockPrefab);
+    }
+
+    private void BindInput()
+    {
+        Container.BindInterfacesAndSelfTo<KeyboardInputHandler>().AsSingle();
+        Container.BindInterfacesAndSelfTo<MouseInputHandler>().AsSingle();
+        Container.BindInterfacesAndSelfTo<InputTypeController>().AsSingle();
     }
 }

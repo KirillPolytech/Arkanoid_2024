@@ -28,9 +28,7 @@ public class ResetState : State
         _timeFreezer.UnFreeze();
         _windowController.Open<GamePlayWindow>();
         _ballPool.Reset();
-        _ball = _ballPool.Pop();
-        
-        _ball.SetPosition(_ballDefaultPos.position);
+        _ball = _ballPool.Pop(_ballDefaultPos.position);
     }
 
     public override void ExitState()

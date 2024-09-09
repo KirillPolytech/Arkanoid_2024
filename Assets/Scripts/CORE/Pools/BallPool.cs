@@ -67,13 +67,15 @@ public class BallPool : IFixedTickable, IDisposable
 
         return ball;
     }
-
-    public Ball Pop()
+    
+    public Ball Pop(Vector3 pos)
     {
         Ball freeBall = _pool.FirstOrDefault(x => !x.GameObject.activeSelf) ?? Instantiate();
 
         if (freeBall == null)
             return null;
+        
+        freeBall.SetPosition(pos);
 
         freeBall.GameObject.SetActive(true);
         

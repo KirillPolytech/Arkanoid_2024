@@ -15,16 +15,25 @@ public class MenuEntryPoint : MonoBehaviour
     [Space(10)] 
     [SerializeField] private Slider musicSlider;
     [SerializeField] private Slider soundSlider;
+    
+    [Space(10)] 
+    [SerializeField] private Slider mouseSens;
 
     private SceneLoader _sceneLoader;
     private VolumeSettings _volumeSettings;
+    private MouseSensivity _mouseSensivity;
 
 
     [Inject]
-    public void Construct(SceneLoader sceneLoader, VolumeSettings volumeSettings)
+    public void Construct(
+        SceneLoader sceneLoader, 
+        VolumeSettings volumeSettings,
+        MouseSensivity mouseSensivity,
+        UserData userData)
     {
         _sceneLoader = sceneLoader;
         _volumeSettings = volumeSettings;
+        _mouseSensivity = mouseSensivity;
 
         for (int i = 0; i < startButton.Length; i++)
         {
@@ -39,6 +48,12 @@ public class MenuEntryPoint : MonoBehaviour
 
         musicSlider.onValueChanged.AddListener(_volumeSettings.ChangeMusicVol);
         soundSlider.onValueChanged.AddListener(_volumeSettings.ChangeSoundVol);
+        
+        mouseSens.onValueChanged.AddListener(x => _mouseSensivity.MouseSensivityValue = x);
+
+        mouseSens.value = _mouseSensivity.MouseSensivityValue;
+        musicSlider.value = volumeSettings.CurrentMusicVolume;
+        soundSlider.value = volumeSettings.CurrentSoundVolume;
     }
 
     private void OnDisable()
@@ -52,5 +67,7 @@ public class MenuEntryPoint : MonoBehaviour
 
         musicSlider.onValueChanged.RemoveListener(_volumeSettings.ChangeMusicVol);
         soundSlider.onValueChanged.RemoveListener(_volumeSettings.ChangeSoundVol);
+        
+        mouseSens.onValueChanged.AddListener(x => _mouseSensivity.MouseSensivityValue = x);
     }
 }

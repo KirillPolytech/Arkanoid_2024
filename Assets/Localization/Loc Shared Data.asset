@@ -59,6 +59,22 @@ MonoBehaviour:
     m_Key: Restart
     m_Metadata:
       m_Items: []
+  - m_Id: 292803969748992
+    m_Key: Music
+    m_Metadata:
+      m_Items: []
+  - m_Id: 292829244624896
+    m_Key: Sound
+    m_Metadata:
+      m_Items: []
+  - m_Id: 293162041675776
+    m_Key: Mouse sensivity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 293961052393472
+    m_Key: Mouse control
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
