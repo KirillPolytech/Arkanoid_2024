@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a61bda69727cd848a24284af2b272e6, type: 3}
   m_Name: Level_6 Settings
   m_EditorClassIdentifier: 
-  Health: 3
+  Health: 10
   PlatformSpeed: 22.5
-  BallStartForce: 15
-  BuffDuration: 5
-  BuffCoeff: 2
-  DropProbability: 10
-  DropVelocity: 5
-  HitToDestructRange: 10
+  BallStartForce: 20
+  BuffDuration: 10
+  BuffCoeff: 3
+  DropProbability: 4
+  DropVelocity: 10
+  HitToDestructRange: 30
   DamageBoost: 100
   HitSoundDelay: 0.05

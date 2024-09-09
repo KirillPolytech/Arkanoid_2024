@@ -12,6 +12,7 @@ public class Block
     public event Action<int> OnHit;
     public event Action OnDestruct;
 
+    private int _initialHitToDestruct;
     private int _hitToDestruct;
 
     public Block(
@@ -23,6 +24,7 @@ public class Block
     {
         _buff = buff;
         _hitToDestruct = hitToDestruct;
+        _initialHitToDestruct = _hitToDestruct;
         _ballPool = ballPool;
 
         BlockView blockView = new BlockView(blockData.rend, blockData.text);
@@ -36,6 +38,12 @@ public class Block
         OnDestroy(blockData, blockView, disposables);
 
         OnCollsion(blockData.Col, disposables);
+    }
+
+    public void Reset()
+    {
+        _hitToDestruct = _initialHitToDestruct;
+        OnHit?.Invoke(_hitToDestruct);
     }
 
     private void OnEnable(BlockData blockData, BlockView blockView, CompositeDisposable disposables)

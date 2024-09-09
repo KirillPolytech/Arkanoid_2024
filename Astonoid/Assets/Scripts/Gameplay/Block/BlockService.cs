@@ -77,6 +77,14 @@ public class BlockService : IInitializable, IDisposable
         return rand >= _buffs.Count ? null : _buffs.ElementAt(rand);
     }
 
+    public void Reset()
+    {
+        for (int i = 0; i < _cachedActions.Count; i++)
+        {
+            _blocks[i].Reset();
+        }
+    }
+
     public void Dispose()
     {
         for (int i = 0; i < _cachedActions.Count; i++)

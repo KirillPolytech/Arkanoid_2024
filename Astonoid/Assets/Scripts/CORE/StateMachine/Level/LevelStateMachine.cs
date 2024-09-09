@@ -31,7 +31,9 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         LevelTimer levelTimer,
         Transform ballDefaultPos)
     {
-        _states.Add(new InitialState(blockPool, ballPool, ballDefaultPos, levelWindowController, timeFreezer, healthPresenter, levelTimer));
+        _states.Add(new InitialState(blockPool, 
+            ballPool, ballDefaultPos, levelWindowController, timeFreezer, healthPresenter, levelTimer,blockService));
+        
         _states.Add(new BeginState(levelWindowController, ballPool, settings, ballDefaultPos));
         _states.Add(new PauseState(timeFreezer, levelWindowController));
         _states.Add(new ContinueState(timeFreezer, levelWindowController));
