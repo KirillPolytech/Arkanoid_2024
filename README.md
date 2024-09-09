@@ -1,9 +1,9 @@
-Astronoid
+# Astronoid
 
-Игра для хакатона СИНЕУС 2024.
-Использованные ассеты:
-2D Casual UI HD
-Simple UI Elements
-UniRx - Reactive Extensions for Unity
-Extenject Dependency Injection IOC
-NaughtyAttributes
+ Игра для хакатона СИНЕУС 2024. <br/>
+ Использованные ассеты:  <br/> 
+ 2D Casual UI HD <br/>
+ Simple UI Elements  <br/>
+ UniRx - Reactive Extensions for Unity  <br/>
+ Extenject Dependency Injection IOC  <br/>
+ NaughtyAttributes  <br/>
