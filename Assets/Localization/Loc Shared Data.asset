@@ -75,6 +75,10 @@ MonoBehaviour:
     m_Key: Mouse control
     m_Metadata:
       m_Items: []
+  - m_Id: 310069230768128
+    m_Key: Astronoid
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

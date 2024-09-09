@@ -56,7 +56,6 @@ public class Block
     {
         block.OnCollisionEnterAsObservable().Subscribe(col =>
         {
-            GameObject gameObject = col.gameObject;
             var ball = _ballPool.GetActive().ElementAt(0);
 
             _hitToDestruct = Mathf.Clamp(_hitToDestruct - ball.Damage, 0 , int.MaxValue);

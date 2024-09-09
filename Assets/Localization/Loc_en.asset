@@ -91,6 +91,10 @@ MonoBehaviour:
       LMB - begin game'
     m_Metadata:
       m_Items: []
+  - m_Id: 310069230768128
+    m_Localized: Astronoid
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

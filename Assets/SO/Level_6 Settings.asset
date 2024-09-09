@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a61bda69727cd848a24284af2b272e6, type: 3}
-  m_Name: Level_4 Settings
+  m_Name: Level_6 Settings
   m_EditorClassIdentifier: 
   Health: 3
   PlatformSpeed: 22.5
@@ -19,6 +19,6 @@ MonoBehaviour:
   BuffCoeff: 2
   DropProbability: 10
   DropVelocity: 5
-  HitToDestructRange: 7
+  HitToDestructRange: 10
   DamageBoost: 100
   HitSoundDelay: 0.05

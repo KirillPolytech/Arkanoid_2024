@@ -21,6 +21,10 @@ public struct LevelData
 {
     public float Time;
     public bool IsCompleted;
-}
 
-public enum ControlType{keyboard, mouse}
+    public LevelData(float time, bool isCompleted)
+    {
+        Time = time;
+        IsCompleted = isCompleted;
+    }
+}

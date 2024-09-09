@@ -18,6 +18,7 @@ MonoBehaviour:
   BuffDuration: 5
   BuffCoeff: 2
   DropProbability: 10
-  HitToDestructRange: 30
+  DropVelocity: 5
+  HitToDestructRange: 10
   DamageBoost: 100
   HitSoundDelay: 0.05

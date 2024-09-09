@@ -27,6 +27,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         BlockPool blockPool,
         BallPool ballPool,
         BlockService blockService,
+        UserData userData,
         Transform ballDefaultPos)
     {
         _states.Add(new InitialState(blockPool, ballPool, ballDefaultPos, levelWindowController, timeFreezer, healthPresenter));
@@ -35,7 +36,7 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         _states.Add(new ContinueState(timeFreezer, levelWindowController));
         _states.Add(new ResetState(ballPool, ballDefaultPos, levelWindowController, timeFreezer));
         _states.Add(new LoseState(timeFreezer, levelWindowController));
-        _states.Add(new WinState(timeFreezer, levelWindowController));
+        _states.Add(new WinState(timeFreezer, levelWindowController, userData));
 
         _inputTypeController = inputTypeController;
         _healthPresenter = healthPresenter;

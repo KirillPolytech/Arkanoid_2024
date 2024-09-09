@@ -18,6 +18,9 @@ public class MenuEntryPoint : MonoBehaviour
     
     [Space(10)] 
     [SerializeField] private Slider mouseSens;
+    
+    [Space(10)] 
+    [SerializeField] private Image[] levels;
 
     private SceneLoader _sceneLoader;
     private VolumeSettings _volumeSettings;

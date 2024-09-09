@@ -24,6 +24,7 @@ public class LevelContext : MonoInstaller
     [Space(15)] [SerializeField] private Collider loseTrigger;
 
     [Space(15)] [SerializeField] private TextMeshProUGUI healthText;
+    [Space(15)] [SerializeField] private TextMeshProUGUI timerText;
 
     [Space(15)] [SerializeField] private LevelWindowController levelWindowController;
 
@@ -56,6 +57,7 @@ public class LevelContext : MonoInstaller
         BindPools();
         BindPlatform();
         BindHealth();
+        BindTimer();
         
         Container.Bind<LoseTrigger>().AsSingle().WithArguments(loseTrigger);
 
@@ -96,5 +98,11 @@ public class LevelContext : MonoInstaller
         Container.BindInterfacesAndSelfTo<KeyboardInputHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<MouseInputHandler>().AsSingle();
         Container.BindInterfacesAndSelfTo<InputTypeController>().AsSingle();
+    }
+
+    private void BindTimer()
+    {
+        Container.BindInterfacesAndSelfTo<LevelTimerView>().AsSingle().WithArguments(timerText);
+        Container.Bind<LevelTimer>().AsSingle();
     }
 }
