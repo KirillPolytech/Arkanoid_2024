@@ -39,10 +39,12 @@ public class GameStateMachine : StateMachine, IDisposable
         switch (contains)
         {
             case true:
+                _musicPlayer.StopCoroutine();
                 _musicPlayer.ChangeAudioClip(sceneName);
                 break;
             case false:
                 Cursor.lockState = CursorLockMode.Confined;
+                _musicPlayer.StopCoroutine();
                 _musicPlayer.ChangeAudioClip(sceneName);
                 break;
         }

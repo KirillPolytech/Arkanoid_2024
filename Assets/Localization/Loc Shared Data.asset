@@ -79,6 +79,10 @@ MonoBehaviour:
     m_Key: Astronoid
     m_Metadata:
       m_Items: []
+  - m_Id: 328110219923456
+    m_Key: Current control
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

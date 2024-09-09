@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -21,10 +22,18 @@ public class MenuEntryPoint : MonoBehaviour
     
     [Space(10)] 
     [SerializeField] private Image[] levels;
+    [SerializeField] private TextMeshProUGUI[] times;
+    
+    [Space(10)] 
+    [SerializeField] private Button controlDeviceButton;
+    [SerializeField] private Image controlDeviceImage;
+    [SerializeField] private Sprite keyboardImage;
+    [SerializeField] private Sprite mouseImage;
 
     private SceneLoader _sceneLoader;
     private VolumeSettings _volumeSettings;
     private MouseSensivity _mouseSensivity;
+    private UserData _userData;
 
 
     [Inject]
@@ -37,7 +46,19 @@ public class MenuEntryPoint : MonoBehaviour
         _sceneLoader = sceneLoader;
         _volumeSettings = volumeSettings;
         _mouseSensivity = mouseSensivity;
+        _userData = userData;
 
+        var temp = userData.GetLevelsData;
+
+        for (int i = 0; i < levels.Length; i++)
+        {
+            if (!temp.ElementAt(i).IsCompleted) 
+                continue;
+            
+            levels[i].color = Color.yellow;
+            times[i].text = $"{temp[i].Min:00}:{temp[i].Sec:00}:{temp[i].MilSec:000}";
+        }
+        
         for (int i = 0; i < startButton.Length; i++)
         {
             int ind = i;
@@ -57,6 +78,25 @@ public class MenuEntryPoint : MonoBehaviour
         mouseSens.value = _mouseSensivity.MouseSensivityValue;
         musicSlider.value = volumeSettings.CurrentMusicVolume;
         soundSlider.value = volumeSettings.CurrentSoundVolume;
+        
+        controlDeviceButton.onClick.AddListener(ChangeControlDevice);
+    }
+
+    private void ChangeControlDevice()
+    {
+        switch (_userData.ControlType)
+        {
+            case ControlType.keyboard:
+                _userData.ControlType = ControlType.mouse;
+                controlDeviceImage.sprite = mouseImage;
+                break;
+            case ControlType.mouse:
+                _userData.ControlType = ControlType.keyboard;
+                controlDeviceImage.sprite = keyboardImage;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void OnDisable()

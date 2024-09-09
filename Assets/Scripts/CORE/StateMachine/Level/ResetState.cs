@@ -8,27 +8,29 @@ public class ResetState : State
     private readonly WindowController _windowController;
     private readonly TimeFreezer _timeFreezer;
     private readonly PlatformPresenter _platformPresenter;
-    
-    private Ball _ball;
+    private readonly LevelTimer _levelTimer;
     
     public ResetState(
         BallPool ballPool, 
         Transform ballDefaultPos, 
         WindowController windowController, 
-        TimeFreezer timeFreezer)
+        TimeFreezer timeFreezer, 
+        LevelTimer levelTimer)
     {
         _ballDefaultPos = ballDefaultPos;
         _ballPool = ballPool;
         _windowController = windowController;
         _timeFreezer = timeFreezer;
+        _levelTimer = levelTimer;
     }
     
     public override void EnterState()
     {
+        _levelTimer.Reset();
         _timeFreezer.UnFreeze();
         _windowController.Open<GamePlayWindow>();
         _ballPool.Reset();
-        _ball = _ballPool.Pop(_ballDefaultPos.position);
+        _ballPool.Pop(_ballDefaultPos.position);
     }
 
     public override void ExitState()

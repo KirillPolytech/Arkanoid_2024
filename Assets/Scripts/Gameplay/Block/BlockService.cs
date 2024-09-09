@@ -20,16 +20,19 @@ public class BlockService : IInitializable, IDisposable
     private Collider[] _blockColliders;
     private Settings _settings;
     private BallPool _ballPool;
+    private AudioSource _destructSound;
 
     [Inject]
     public void Construct(
         BlockProvider blockProvider,
         BuffPoolsProvider buffPoolsProvider,
         Settings settings,
-        BallPool ballPool)
+        BallPool ballPool,
+        AudioSource destructSound)
     {
         _settings = settings;
         _ballPool = ballPool;
+        _destructSound = destructSound;
         _blockColliders = blockProvider.GetArray();
 
         _buffs.AddRange(buffPoolsProvider.GetArray());
@@ -57,7 +60,10 @@ public class BlockService : IInitializable, IDisposable
             _blocks.Add(block);
 
             Action cached = () =>
+            {
                 OnBlockDestruct?.Invoke(_blockColliders.Count(x => x.gameObject.activeSelf));
+                _destructSound.Play();
+            };
 
             _cachedActions.Add(cached);
 

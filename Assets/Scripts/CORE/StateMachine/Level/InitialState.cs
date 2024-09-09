@@ -9,8 +9,7 @@ public class InitialState : State
     private readonly WindowController _windowController;
     private readonly TimeFreezer _timeFreezer;
     private readonly HealthPresenter _healthPresenter;
-    
-    private Ball _ball;
+    private readonly LevelTimer _levelTimer;
     
     public InitialState(
         BlockPool blockPool,
@@ -18,7 +17,8 @@ public class InitialState : State
         Transform ballDefaultPos, 
         WindowController windowController, 
         TimeFreezer timeFreezer,
-        HealthPresenter healthPresenter)
+        HealthPresenter healthPresenter,
+        LevelTimer levelTimer)
     {
         _ballDefaultPos = ballDefaultPos;
         _ballPool = ballPool;
@@ -26,14 +26,16 @@ public class InitialState : State
         _windowController = windowController;
         _timeFreezer = timeFreezer;
         _healthPresenter = healthPresenter;
+        _levelTimer = levelTimer;
     }
     
     public override void EnterState()
     {
         Cursor.lockState = CursorLockMode.Locked;
         
+        _levelTimer.Reset();
         _ballPool.Reset();
-        _ball = _ballPool.Pop(_ballDefaultPos.position);
+        _ballPool.Pop(_ballDefaultPos.position);
         _timeFreezer.UnFreeze();
         _windowController.Open<GamePlayWindow>();
         _blockPool.ActivateAll();

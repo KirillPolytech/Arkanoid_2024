@@ -28,15 +28,16 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
         BallPool ballPool,
         BlockService blockService,
         UserData userData,
+        LevelTimer levelTimer,
         Transform ballDefaultPos)
     {
-        _states.Add(new InitialState(blockPool, ballPool, ballDefaultPos, levelWindowController, timeFreezer, healthPresenter));
+        _states.Add(new InitialState(blockPool, ballPool, ballDefaultPos, levelWindowController, timeFreezer, healthPresenter, levelTimer));
         _states.Add(new BeginState(levelWindowController, ballPool, settings, ballDefaultPos));
         _states.Add(new PauseState(timeFreezer, levelWindowController));
         _states.Add(new ContinueState(timeFreezer, levelWindowController));
-        _states.Add(new ResetState(ballPool, ballDefaultPos, levelWindowController, timeFreezer));
+        _states.Add(new ResetState(ballPool, ballDefaultPos, levelWindowController, timeFreezer, levelTimer));
         _states.Add(new LoseState(timeFreezer, levelWindowController));
-        _states.Add(new WinState(timeFreezer, levelWindowController, userData));
+        _states.Add(new WinState(timeFreezer, levelWindowController, userData, levelTimer));
 
         _inputTypeController = inputTypeController;
         _healthPresenter = healthPresenter;
@@ -72,6 +73,9 @@ public class LevelStateMachine : StateMachine, IDisposable, IInitializable
 
     private void BeginGame(InputData inputData)
     {
+       // if (Input.GetKeyDown(KeyCode.Alpha1))
+            //SetState<WinState>();
+        
         if (!inputData.IsStartGameButtonPressed)
             return;
 

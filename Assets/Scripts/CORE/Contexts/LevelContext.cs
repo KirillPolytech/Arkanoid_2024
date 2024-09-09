@@ -32,6 +32,7 @@ public class LevelContext : MonoInstaller
     
     [Header("Sounds")]
     [Space(15)] [SerializeField] private AudioSource ballHitSound;
+    [Space(15)] [SerializeField] private AudioSource blockDestructSound;
     
     [Header("Localization")]
     [Space(15)] [SerializeField] private LocalizedString localizedHealth;
@@ -63,7 +64,7 @@ public class LevelContext : MonoInstaller
 
         Container.BindInterfacesAndSelfTo<LevelStateMachine>().AsSingle().WithArguments(ballDefaultPos);
 
-        Container.BindInterfacesAndSelfTo<BlockService>().AsSingle();
+        Container.BindInterfacesAndSelfTo<BlockService>().AsSingle().WithArguments(blockDestructSound);
     }
 
     private void BindHealth()
@@ -102,7 +103,7 @@ public class LevelContext : MonoInstaller
 
     private void BindTimer()
     {
-        Container.BindInterfacesAndSelfTo<LevelTimerView>().AsSingle().WithArguments(timerText);
-        Container.Bind<LevelTimer>().AsSingle();
+        Container.Bind<LevelTimerView>().AsSingle().WithArguments(timerText);
+        Container.BindInterfacesAndSelfTo<LevelTimer>().AsSingle();
     }
 }

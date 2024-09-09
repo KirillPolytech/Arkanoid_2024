@@ -11,6 +11,6 @@ public class LevelTimerView
 
     public void UpdateText(float milSec, float sec, float min)
     {
-        _timerText.text = $"{min}:{sec}:{milSec}";
+        _timerText.text = $"{min:00}:{sec:00}:{milSec:000}";
     }
 }

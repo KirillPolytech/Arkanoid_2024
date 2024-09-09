@@ -1,4 +1,3 @@
-using System.Linq;
 using Arkanoid.StateMachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,16 +7,19 @@ public class WinState : State
     private readonly TimeFreezer _timeFreezer;
     private readonly LevelWindowController _levelWindowController;
     private readonly UserData _userData;
+    private readonly LevelTimer _levelTimer;
 
-    public WinState(TimeFreezer timeFreezer, 
+    public WinState(TimeFreezer timeFreezer,
         LevelWindowController levelWindowController,
-        UserData userData)
+        UserData userData,
+        LevelTimer levelTimer)
     {
         _timeFreezer = timeFreezer;
         _levelWindowController = levelWindowController;
         _userData = userData;
+        _levelTimer = levelTimer;
     }
-    
+
     public override void EnterState()
     {
         _timeFreezer.Freeze();
@@ -33,11 +35,11 @@ public class WinState : State
             }
         }
 
-        _userData.ChangeLevelData(ind, new LevelData());
+        _userData.ChangeLevelData(ind,
+            new LevelData(_levelTimer.Min, _levelTimer.Sec, _levelTimer.MiliSec, true));
     }
 
     public override void ExitState()
     {
-        
     }
 }

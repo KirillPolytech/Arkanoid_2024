@@ -48,7 +48,9 @@ MonoBehaviour:
       D - move right
 
       space
-      - begin game'
+      - begin game
+
+      ESC - pause'
     m_Metadata:
       m_Items: []
   - m_Id: 6155704930304
@@ -88,11 +90,18 @@ MonoBehaviour:
 
       Mouse movement - movement
 
-      LMB - begin game'
+      LMB - begin game
+
+      ESC
+      - pause'
     m_Metadata:
       m_Items: []
   - m_Id: 310069230768128
     m_Localized: Astronoid
+    m_Metadata:
+      m_Items: []
+  - m_Id: 328110219923456
+    m_Localized: Current control
     m_Metadata:
       m_Items: []
   references:

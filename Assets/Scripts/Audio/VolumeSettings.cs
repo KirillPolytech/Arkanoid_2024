@@ -39,8 +39,8 @@ public class VolumeSettings : IInitializable
 
     public void Initialize()
     {
-        _audioMixer.SetFloat(Soundvol, 0);
-        _audioMixer.SetFloat(Musicvol, 0);
+        _audioMixer.SetFloat(Soundvol, -15);
+        _audioMixer.SetFloat(Musicvol, -15);
     }
 
     public void ChangeSoundVol(float value) => _audioMixer.SetFloat(Soundvol, Mathf.Clamp(value, Min, Max));
